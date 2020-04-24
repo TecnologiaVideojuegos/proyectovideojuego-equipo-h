@@ -17,8 +17,8 @@ class MyGame(arcade.Window):
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, "Lab 7 - User Control")
         self.set_update_rate(1 / 60)
 
-        self.player = Player(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2, "Sprites/Player/ShotgunMan.png", 0.5)
-        self.bullseye = arcade.Sprite("Sprites/Bullseye.png", 0.5)
+        self.player = Player(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2, "Sprites/Player/Skins/Shotgun.png", 0.5)
+        self.bullseye = arcade.Sprite("Sprites/Player/Bullseye.png", 0.5)
         self.laser = [0, 0]
         self.speed = 250
         self.mov_ud = ""
