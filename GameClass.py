@@ -2,7 +2,7 @@
 
 import arcade
 import math
-from Classes.PC_NPCs import Player
+from Classes.PC_NPCs import *
 
 # --- Constants ---
 SCREEN_WIDTH = 800
@@ -18,9 +18,12 @@ class MyGame(arcade.Window):
         self.set_update_rate(1 / 60)
 
         self.player = Player(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2, "Sprites/Player/Skins/Shotgun.png", 0.5)
+        #Enemigo
+        self.enemy = Enemy(SCREEN_WIDTH, SCREEN_HEIGHT, "Sprites/Enemies/Zombie.png", 1)
         self.bullseye = arcade.Sprite("Sprites/Player/Bullseye.png", 0.5)
         self.laser = [0, 0]
         self.speed = 250
+        self.speed_enemies = 125
         self.mov_ud = ""
         self.mov_lr = ""
         self.set_mouse_visible(False)
@@ -35,6 +38,8 @@ class MyGame(arcade.Window):
                          self.player.center_y + self.laser[1], arcade.color.PUCE_RED, line_width=2)
         self.player.draw()
         self.bullseye.draw()
+        #Enemigo
+        self.enemy.draw()
 
     def update_bullseye(self):
         self.laser = [self.bullseye.center_x - self.player.center_x, self.bullseye.center_y - self.player.center_y]
@@ -49,6 +54,11 @@ class MyGame(arcade.Window):
         self.player.upd_position(SCREEN_WIDTH, SCREEN_HEIGHT)
         self.update_bullseye()
         self.player.upd_orientation(self.bullseye.center_x, self.bullseye.center_y)
+        #Enemigo
+        self.enemy.upd_orientation(self.player.center_x, self.player.center_y)
+        self.enemy.move_enemy(self.speed_enemies * delta_time, self.player)
+        self.enemy.upd_position(SCREEN_WIDTH, SCREEN_HEIGHT)
+
 
     def on_key_press(self, symbol: int, modifiers: int):
         if symbol == arcade.key.W:
