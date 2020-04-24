@@ -1,5 +1,6 @@
 import math
 import arcade
+from random import randrange
 
 
 class LivingBeing(arcade.Sprite):
@@ -75,3 +76,31 @@ class Player(LivingBeing):
     def draw_debug(self):
         self.sprite.draw()
         self.sprite.draw_hit_box(arcade.color.GREEN, 1)
+
+
+class Enemy(LivingBeing):
+    #Cambiar medidas de la ventana por las de la Habitacion
+    def __init__(self,SCREEN_WIDTH: int, SCREEN_HEIGHT: int, image: str, scale: float):
+        self.eje_x = SCREEN_WIDTH // 2
+        self.eje_y = SCREEN_HEIGHT // 2
+        self.position_x = randrange(1, self.eje_x, 1)
+        self.position_y = randrange(1, self.eje_y, 1)
+        super().__init__(self.position_x, self.position_y, image, scale)
+
+    def move_enemy(self, speed, player: Player):
+        if self.position_y == player.center_y:
+            self.change_y = 0
+        elif self.center_y < player.center_y:
+            self.change_y = speed
+        else:
+            self.change_y = -speed
+
+        if self.position_x == player.center_x:
+            self.change_x = 0
+        elif self.center_x < player.center_x:
+            self.change_x = speed
+        else:
+            self.change_x = -speed
+
+    def draw_debug(self):
+        self.sprite.draw()
