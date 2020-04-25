@@ -62,8 +62,6 @@ class MyGame(arcade.Window):
         self.laser[0] *= math.sqrt(SCREEN_WIDTH ** 2 + SCREEN_HEIGHT ** 2)
         self.laser[1] *= math.sqrt(SCREEN_WIDTH ** 2 + SCREEN_HEIGHT ** 2)
 
-
-
     def on_update(self, delta_time: float):
         self.update_bullseye()
         self.player.upd_orientation(self.bullseye.center_x, self.bullseye.center_y)
@@ -136,10 +134,6 @@ class MyGame(arcade.Window):
     def on_mouse_press(self, x: float, y: float, button: int, modifiers: int):
         if button == arcade.MOUSE_BUTTON_LEFT:
             arcade.play_sound(self.shot)
-
-
-
-
 
 
 def main():
