@@ -18,9 +18,10 @@ class MyGame(arcade.Window):
     def __init__(self):
         """ Initializer """
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, "Game name")
+
         self.set_update_rate(1 / 60)
         self.player = Player(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2, "Sprites/Player/Skins/Shotgun.png", 1)
-        self.enemy = Enemy(SCREEN_WIDTH, SCREEN_HEIGHT, "Sprites/Enemies/Zombie.png", 1)
+        self.enemy_list = None
         self.bullseye = arcade.Sprite("Sprites/Player/Bullseye.png", 0.75)
         self.laser = [0, 0]
         self.speed = 500
@@ -38,9 +39,15 @@ class MyGame(arcade.Window):
 
     def setup(self):
         self.shot = arcade.Sound("Sounds/Shotgun.wav")
+        self.enemy_list = arcade.SpriteList()
+
+        for i in range(2):
+            enemy = Enemy(SCREEN_WIDTH, SCREEN_HEIGHT, "Sprites/Enemies/Zombie.png", 1)
+            self.enemy_list.append(enemy)
+
         self.map.setup_room(True, True, True, True)
         self.player_wall_physics = arcade.PhysicsEngineSimple(self.player, self.map.wall_list)
-        self.enemy_wall_physics = arcade.PhysicsEngineSimple(self.enemy, self.map.wall_list)
+        self.player_enemie_physics = arcade.PhysicsEngineSimple(self.player, self.enemy_list)
 
     def on_draw(self):
         arcade.start_render()
@@ -48,11 +55,10 @@ class MyGame(arcade.Window):
         arcade.draw_line(self.player.center_x, self.player.center_y, self.player.center_x + self.laser[0],
                          self.player.center_y + self.laser[1], arcade.color.PUCE_RED, line_width=2)
         self.player.draw()
-        self.enemy.draw()
         # self.player.draw_hit_box()
         self.bullseye.draw()
         # Enemigo
-        self.enemy.draw()
+        self.enemy_list.draw()
 
     def update_bullseye(self):
         self.laser = [self.bullseye.center_x - self.player.center_x, self.bullseye.center_y - self.player.center_y]
@@ -62,17 +68,20 @@ class MyGame(arcade.Window):
         self.laser[0] *= math.sqrt(SCREEN_WIDTH ** 2 + SCREEN_HEIGHT ** 2)
         self.laser[1] *= math.sqrt(SCREEN_WIDTH ** 2 + SCREEN_HEIGHT ** 2)
 
+
     def on_update(self, delta_time: float):
         self.update_bullseye()
         self.player.upd_orientation(self.bullseye.center_x, self.bullseye.center_y)
         self.player.speed_up(self.mov_ud, self.mov_lr, delta_time * self.speed)
-        self.enemy.upd_orientation(self.player.center_x, self.player.center_y)
-        self.enemy.move_enemy(self.speed_enemies * delta_time, self.player)
         self.player_wall_physics.update()
-        self.enemy_wall_physics.update()
+        self.player_enemie_physics.update()
+        for enemy in self.enemy_list:
+            enemy.follow_sprite(self.speed_enemies * delta_time, self.player)
+            enemy.upd_orientation(self.player.center_x, self.player.center_y)
+
 
         changed = False
-        # Scroll left
+        # Scroll leftddddd
         left_boundary = self.view_left + VIEWPORT_MARGIN_DI
         if self.player.center_x < left_boundary:
             self.view_left -= left_boundary - self.player.center_x
@@ -143,3 +152,4 @@ def main():
 
 
 main()
+
