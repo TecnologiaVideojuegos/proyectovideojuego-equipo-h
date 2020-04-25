@@ -80,7 +80,7 @@ class Player(LivingBeing):
 
 class Enemy(LivingBeing):
     #Cambiar medidas de la ventana por las de la Habitacion
-    def __init__(self,SCREEN_WIDTH: int, SCREEN_HEIGHT: int, image: str, scale: float):
+    def __init__(self, SCREEN_WIDTH: int, SCREEN_HEIGHT: int, image: str, scale: float):
         self.eje_x = SCREEN_WIDTH // 2
         self.eje_y = SCREEN_HEIGHT // 2
         self.position_x = randrange(1, self.eje_x, 1)
