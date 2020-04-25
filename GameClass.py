@@ -3,10 +3,11 @@
 import arcade
 import math
 from Classes.PC_NPCs import Player
+from Classes.Maps import Room
 
 # --- Constants ---
 SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
+SCREEN_HEIGHT = 800
 
 
 class MyGame(arcade.Window):
@@ -17,20 +18,25 @@ class MyGame(arcade.Window):
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, "Lab 7 - User Control")
         self.set_update_rate(1 / 60)
 
-        self.player = Player(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2, "Sprites/Player/Skins/Shotgun.png", 0.5)
-        self.bullseye = arcade.Sprite("Sprites/Player/Bullseye.png", 0.5)
+        self.player = Player(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2, "Sprites/Player/Skins/Shotgun.png", 1)
+        self.bullseye = arcade.Sprite("Sprites/Player/Bullseye.png", 0.75)
         self.laser = [0, 0]
-        self.speed = 250
+        self.speed = 500
         self.mov_ud = ""
         self.mov_lr = ""
         self.set_mouse_visible(False)
         self.shot = None
+        self.physics = None
+        self.map = Room(0, 0)
 
     def setup(self):
         self.shot = arcade.Sound("Sounds/Shotgun.wav")
+        self.map.setup_room(True, True, True, True)
+        self.physics = arcade.PhysicsEngineSimple(self.player, self.map.wall_list)
 
     def on_draw(self):
         arcade.start_render()
+        self.map.draw()
         arcade.draw_line(self.player.center_x, self.player.center_y, self.player.center_x + self.laser[0],
                          self.player.center_y + self.laser[1], arcade.color.PUCE_RED, line_width=2)
         self.player.draw()
@@ -46,7 +52,7 @@ class MyGame(arcade.Window):
 
     def on_update(self, delta_time: float):
         self.player.speed_up(self.mov_ud, self.mov_lr, self.speed * delta_time)
-        self.player.upd_position(SCREEN_WIDTH, SCREEN_HEIGHT)
+        self.physics.update()
         self.update_bullseye()
         self.player.upd_orientation(self.bullseye.center_x, self.bullseye.center_y)
 
