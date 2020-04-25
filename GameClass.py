@@ -67,6 +67,7 @@ class MyGame(arcade.Window):
     def on_update(self, delta_time: float):
         self.update_bullseye()
         self.player.upd_orientation(self.bullseye.center_x, self.bullseye.center_y)
+        self.player.speed_up(self.mov_ud, self.mov_lr, delta_time * self.speed)
         self.enemy.upd_orientation(self.player.center_x, self.player.center_y)
         self.enemy.move_enemy(self.speed_enemies * delta_time, self.player)
         self.player_wall_physics.update()
