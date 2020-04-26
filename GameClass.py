@@ -1,14 +1,15 @@
-""" Lab 7 - User Control """
+""" The darkness within """
 
 import arcade
 import math
-from Classes.PC_NPCs import Player
-from Classes.Maps import Room
 from Classes.PC_NPCs import *
+from Classes.Maps import *
 
 # --- Constants ---
 SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 800
+SCREEN_HEIGHT = 600
+VIEWPORT_MARGIN_DI = 400
+VIEWPORT_MARGIN_AA = 300
 
 
 class MyGame(arcade.Window):
@@ -16,26 +17,37 @@ class MyGame(arcade.Window):
 
     def __init__(self):
         """ Initializer """
-        super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, "Lab 7 - User Control")
+        super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, "Game name")
+
         self.set_update_rate(1 / 60)
         self.player = Player(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2, "Sprites/Player/Skins/Shotgun.png", 1)
+        self.enemy_list = None
         self.bullseye = arcade.Sprite("Sprites/Player/Bullseye.png", 0.75)
         self.laser = [0, 0]
         self.speed = 500
-        #Enemigo
-        self.enemy = Enemy(SCREEN_WIDTH, SCREEN_HEIGHT, "Sprites/Enemies/Zombie.png", 1)
-        self.speed_enemies = 125
+        self.speed_enemies = 250
         self.mov_ud = ""
         self.mov_lr = ""
         self.set_mouse_visible(False)
         self.shot = None
-        self.physics = None
+        self.player_wall_physics = None
+        self.enemy_wall_physics = None
         self.map = Room(0, 0)
+        self.view_bottom = 0
+        self.view_left = 0
+        self.mouse_position = [0, 0]
 
     def setup(self):
         self.shot = arcade.Sound("Sounds/Shotgun.wav")
+        self.enemy_list = arcade.SpriteList()
+
+        for i in range(2):
+            enemy = Enemy(SCREEN_WIDTH, SCREEN_HEIGHT, "Sprites/Enemies/Zombie.png", 1)
+            self.enemy_list.append(enemy)
+
         self.map.setup_room(True, True, True, True)
-        self.physics = arcade.PhysicsEngineSimple(self.player, self.map.wall_list)
+        self.player_wall_physics = arcade.PhysicsEngineSimple(self.player, self.map.wall_list)
+        self.player_enemie_physics = arcade.PhysicsEngineSimple(self.player, self.enemy_list)
 
     def on_draw(self):
         arcade.start_render()
@@ -43,9 +55,10 @@ class MyGame(arcade.Window):
         arcade.draw_line(self.player.center_x, self.player.center_y, self.player.center_x + self.laser[0],
                          self.player.center_y + self.laser[1], arcade.color.PUCE_RED, line_width=2)
         self.player.draw()
+        # self.player.draw_hit_box()
         self.bullseye.draw()
-        #Enemigo
-        self.enemy.draw()
+        # Enemigo
+        self.enemy_list.draw()
 
     def update_bullseye(self):
         self.laser = [self.bullseye.center_x - self.player.center_x, self.bullseye.center_y - self.player.center_y]
@@ -55,15 +68,49 @@ class MyGame(arcade.Window):
         self.laser[0] *= math.sqrt(SCREEN_WIDTH ** 2 + SCREEN_HEIGHT ** 2)
         self.laser[1] *= math.sqrt(SCREEN_WIDTH ** 2 + SCREEN_HEIGHT ** 2)
 
+
     def on_update(self, delta_time: float):
-        self.player.speed_up(self.mov_ud, self.mov_lr, self.speed * delta_time)
-        self.physics.update()
         self.update_bullseye()
         self.player.upd_orientation(self.bullseye.center_x, self.bullseye.center_y)
-        #Enemigo
-        self.enemy.upd_orientation(self.player.center_x, self.player.center_y)
-        self.enemy.move_enemy(self.speed_enemies * delta_time, self.player)
-        self.enemy.upd_position(SCREEN_WIDTH, SCREEN_HEIGHT)
+        self.player.speed_up(self.mov_ud, self.mov_lr, delta_time * self.speed)
+        self.player_wall_physics.update()
+        self.player_enemie_physics.update()
+        for enemy in self.enemy_list:
+            enemy.follow_sprite(self.speed_enemies * delta_time, self.player)
+            enemy.upd_orientation(self.player.center_x, self.player.center_y)
+
+
+        changed = False
+        # Scroll leftddddd
+        left_boundary = self.view_left + VIEWPORT_MARGIN_DI
+        if self.player.center_x < left_boundary:
+            self.view_left -= left_boundary - self.player.center_x
+            changed = True
+
+        # Scroll right
+        right_boundary = self.view_left + SCREEN_WIDTH - VIEWPORT_MARGIN_DI
+        if self.player.center_x > right_boundary:
+            self.view_left += self.player.center_x - right_boundary
+            changed = True
+
+        # Scroll up
+        top_boundary = self.view_bottom + SCREEN_HEIGHT - VIEWPORT_MARGIN_AA
+        if self.player.center_y > top_boundary:
+            self.view_bottom += self.player.center_y - top_boundary
+            changed = True
+
+        # Scroll down
+        bottom_boundary = self.view_bottom + VIEWPORT_MARGIN_AA
+        if self.player.center_y < bottom_boundary:
+            self.view_bottom -= bottom_boundary - self.player.center_y
+            changed = True
+
+        if changed:
+            self.on_mouse_motion(self.mouse_position[0], self.mouse_position[1], 0, 0)
+            arcade.set_viewport(self.view_left,
+                                SCREEN_WIDTH + self.view_left,
+                                self.view_bottom,
+                                SCREEN_HEIGHT + self.view_bottom)
 
     def on_key_press(self, symbol: int, modifiers: int):
         if symbol == arcade.key.W:
@@ -90,7 +137,8 @@ class MyGame(arcade.Window):
             self.player.full_stop("x")
 
     def on_mouse_motion(self, x: float, y: float, dx: float, dy: float):
-        self.bullseye.center_x, self.bullseye.center_y = x, y
+        self.mouse_position = [x, y]
+        self.bullseye.center_x, self.bullseye.center_y = x + self.view_left, y + self.view_bottom
 
     def on_mouse_press(self, x: float, y: float, button: int, modifiers: int):
         if button == arcade.MOUSE_BUTTON_LEFT:
@@ -104,3 +152,4 @@ def main():
 
 
 main()
+

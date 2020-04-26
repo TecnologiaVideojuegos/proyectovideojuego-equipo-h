@@ -29,13 +29,13 @@ class Room:
                 wall.center_y = self.room_y + 32
                 self.wall_list.append(wall)
 
-            for x in range(self.room_x + 800, self.room_x + 1376, 64):
+            for x in range(self.room_x + 736, self.room_x + 1312, 64):
                 wall = arcade.Sprite("Sprites/GroundTiles/SteelGround.png", 1)
                 wall.center_x = x
                 wall.center_y = self.room_y + 32
                 self.wall_list.append(wall)
         else:
-            for x in range(self.room_x + 32, self.room_x + 1376, 64):
+            for x in range(self.room_x + 32, self.room_x + 1312, 64):
                 wall = arcade.Sprite("Sprites/GroundTiles/SteelGround.png", 1)
                 wall.center_x = x
                 wall.center_y = self.room_y + 32
@@ -45,16 +45,16 @@ class Room:
             for x in range(self.room_x + 32, self.room_x + 608, 64):
                 wall = arcade.Sprite("Sprites/GroundTiles/SteelGround.png", 1)
                 wall.center_x = x
-                wall.center_y = self.room_y + 1376
+                wall.center_y = self.room_y + 1312
                 self.wall_list.append(wall)
 
-            for x in range(self.room_x + 800, self.room_x + 1376, 64):
+            for x in range(self.room_x + 736, self.room_x + 1312, 64):
                 wall = arcade.Sprite("Sprites/GroundTiles/SteelGround.png", 1)
                 wall.center_x = x
-                wall.center_y = self.room_y + 1376
+                wall.center_y = self.room_y + 1312
                 self.wall_list.append(wall)
         else:
-            for x in range(self.room_x + 32, self.room_x + 1376, 64):
+            for x in range(self.room_x + 32, self.room_x + 1312, 64):
                 wall = arcade.Sprite("Sprites/GroundTiles/SteelGround.png", 1)
                 wall.center_x = x
                 wall.center_y = self.room_y + 1376
@@ -67,13 +67,13 @@ class Room:
                 wall.center_y = y
                 self.wall_list.append(wall)
 
-            for y in range(self.room_y + 800, self.room_y + 1376, 64):
+            for y in range(self.room_y + 736, self.room_y + 1312, 64):
                 wall = arcade.Sprite("Sprites/GroundTiles/SteelGround.png", 1)
                 wall.center_x = self.room_x + 32
                 wall.center_y = y
                 self.wall_list.append(wall)
         else:
-            for y in range(self.room_y + 32, self.room_y + 1376, 64):
+            for y in range(self.room_y + 32, self.room_y + 1312, 64):
                 wall = arcade.Sprite("Sprites/GroundTiles/SteelGround.png", 1)
                 wall.center_x = self.room_x + 32
                 wall.center_y = y
@@ -82,19 +82,19 @@ class Room:
         if right:
             for y in range(self.room_y + 32, self.room_y + 608, 64):
                 wall = arcade.Sprite("Sprites/GroundTiles/SteelGround.png", 1)
-                wall.center_x = self.room_x + 32
+                wall.center_x = self.room_x + 1312
                 wall.center_y = y
                 self.wall_list.append(wall)
 
-            for y in range(self.room_y + 800, self.room_y + 1376, 64):
+            for y in range(self.room_y + 736, self.room_y + 1376, 64):
                 wall = arcade.Sprite("Sprites/GroundTiles/SteelGround.png", 1)
-                wall.center_x = self.room_x + 32
+                wall.center_x = self.room_x + 1312
                 wall.center_y = y
                 self.wall_list.append(wall)
         else:
-            for y in range(self.room_y + 32, self.room_y + 1376, 64):
+            for y in range(self.room_y + 32, self.room_y + 1312, 64):
                 wall = arcade.Sprite("Sprites/GroundTiles/SteelGround.png", 1)
-                wall.center_x = self.room_x + 32
+                wall.center_x = self.room_x + 1312
                 wall.center_y = y
                 self.wall_list.append(wall)
 
