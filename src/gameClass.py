@@ -47,7 +47,7 @@ class MyGame(arcade.Window):
 
         self.map.setup_room(True, True, True, True)
         self.player_wall_physics = arcade.PhysicsEngineSimple(self.player, self.map.wall_list)
-        self.player_enemie_physics = arcade.PhysicsEngineSimple(self.player, self.enemy_list)
+        self.enemy_wall_physics = arcade.PhysicsEngineSimple(self.player, self.enemy_list)
 
     def on_draw(self):
         arcade.start_render()
@@ -68,20 +68,10 @@ class MyGame(arcade.Window):
         self.laser[0] *= math.sqrt(SCREEN_WIDTH ** 2 + SCREEN_HEIGHT ** 2)
         self.laser[1] *= math.sqrt(SCREEN_WIDTH ** 2 + SCREEN_HEIGHT ** 2)
 
-
-    def on_update(self, delta_time: float):
-        self.update_bullseye()
-        self.player.upd_orientation(self.bullseye.center_x, self.bullseye.center_y)
-        self.player.speed_up(self.mov_ud, self.mov_lr, delta_time * self.speed)
-        self.player_wall_physics.update()
-        self.player_enemie_physics.update()
-        for enemy in self.enemy_list:
-            enemy.follow_sprite(self.speed_enemies * delta_time, self.player)
-            enemy.upd_orientation(self.player.center_x, self.player.center_y)
-
-
+    def fix_viewport(self):
         changed = False
-        # Scroll leftddddd
+
+        # Scroll left
         left_boundary = self.view_left + VIEWPORT_MARGIN_DI
         if self.player.center_x < left_boundary:
             self.view_left -= left_boundary - self.player.center_x
@@ -111,6 +101,19 @@ class MyGame(arcade.Window):
                                 SCREEN_WIDTH + self.view_left,
                                 self.view_bottom,
                                 SCREEN_HEIGHT + self.view_bottom)
+
+    def on_update(self, delta_time: float):
+        self.update_bullseye()
+        self.player.upd_orientation(self.bullseye.center_x, self.bullseye.center_y)
+        self.player.speed_up(self.mov_ud, self.mov_lr, delta_time * self.speed)
+        self.player_wall_physics.update()
+        self.player_enemy_physics.update()
+        for enemy in self.enemy_list:
+            enemy.follow_sprite(self.speed_enemies * delta_time, self.player)
+            enemy.upd_orientation(self.player.center_x, self.player.center_y)
+        self.fix_viewport()
+
+
 
     def on_key_press(self, symbol: int, modifiers: int):
         if symbol == arcade.key.W:

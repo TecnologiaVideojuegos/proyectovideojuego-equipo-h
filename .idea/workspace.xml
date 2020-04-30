@@ -2,9 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c48198f4-7ede-4f91-a0aa-15662352d21b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Classes/Maps.py" beforeDir="false" afterPath="$PROJECT_DIR$/Classes/Maps.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameClass.py" beforeDir="false" afterPath="$PROJECT_DIR$/GameClass.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/Sprites/Enemies/Zombie.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/Sprites/GroundTiles/CyberGroundTile.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/Sprites/GroundTiles/CyberGroundTileModified.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/Sprites/GroundTiles/CyberGroundTileModifiedGreen.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/Sprites/GroundTiles/SteelGround.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/Sprites/GroundTiles/SteelGround1.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/Sprites/GroundTiles/SteelGround1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/Sprites/Player/Skins/Akimbo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/Sprites/Player/Skins/Knife.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/Sprites/Player/Skins/MachineGun.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/Sprites/Player/Skins/Shotgun.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GameClass.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/GameClass.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
