@@ -1,6 +1,7 @@
 import math
 import arcade
 from random import randrange
+from src.pcNpc.LivingBeing import LivingBeing
 
 
 class Enemy(LivingBeing):
@@ -12,7 +13,7 @@ class Enemy(LivingBeing):
         self.position_y = randrange(1, SCREEN_HEIGHT, 1)
         super().__init__(self.position_x, self.position_y, image, scale)
 
-    def follow_sprite(self,SPRITE_SPEED, player_sprite):
+    def follow_sprite(self, SPRITE_SPEED, player_sprite):
         if self.center_y < player_sprite.center_y:
             self.center_y += min(SPRITE_SPEED, player_sprite.center_y - self.center_y)
         elif self.center_y > player_sprite.center_y:

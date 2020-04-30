@@ -2,8 +2,10 @@
 
 import arcade
 import math
-from Classes.PC_NPCs import *
-from Classes.Maps import *
+from src.pcNpc.Player import Player
+from src.pcNpc.Enemy import Enemy
+from src.mapGeneration.Map import Map
+from src.mapGeneration.Room import Room
 
 # --- Constants ---
 SCREEN_WIDTH = 800
@@ -20,9 +22,9 @@ class MyGame(arcade.Window):
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, "Game name")
 
         self.set_update_rate(1 / 60)
-        self.player = Player(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2, "Sprites/Player/Skins/Shotgun.png", 1)
+        self.player = Player(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2, "./resources/sprites/player/shotgun.png", 1)
         self.enemy_list = None
-        self.bullseye = arcade.Sprite("Sprites/Player/Bullseye.png", 0.75)
+        self.bullseye = arcade.Sprite("./resources/sprites/player/bullseye.png", 0.75)
         self.laser = [0, 0]
         self.speed = 500
         self.speed_enemies = 250
@@ -38,16 +40,16 @@ class MyGame(arcade.Window):
         self.mouse_position = [0, 0]
 
     def setup(self):
-        self.shot = arcade.Sound("Sounds/Shotgun.wav")
+        self.shot = arcade.Sound("./resources/sounds/shotgun.wav")
         self.enemy_list = arcade.SpriteList()
 
         for i in range(2):
-            enemy = Enemy(SCREEN_WIDTH, SCREEN_HEIGHT, "Sprites/Enemies/Zombie.png", 1)
+            enemy = Enemy(SCREEN_WIDTH, SCREEN_HEIGHT, "./resources/sprites/enemies/alienZombie.png", 1)
             self.enemy_list.append(enemy)
 
         self.map.setup_room(True, True, True, True)
         self.player_wall_physics = arcade.PhysicsEngineSimple(self.player, self.map.wall_list)
-        self.enemy_wall_physics = arcade.PhysicsEngineSimple(self.player, self.enemy_list)
+        self.enemy_wall_physics = arcade.PhysicsEngineSimple(self.enemy_list, self.map.wall_list)
 
     def on_draw(self):
         arcade.start_render()
@@ -107,13 +109,11 @@ class MyGame(arcade.Window):
         self.player.upd_orientation(self.bullseye.center_x, self.bullseye.center_y)
         self.player.speed_up(self.mov_ud, self.mov_lr, delta_time * self.speed)
         self.player_wall_physics.update()
-        self.player_enemy_physics.update()
+        self.enemy_wall_physics.update()
         for enemy in self.enemy_list:
             enemy.follow_sprite(self.speed_enemies * delta_time, self.player)
             enemy.upd_orientation(self.player.center_x, self.player.center_y)
         self.fix_viewport()
-
-
 
     def on_key_press(self, symbol: int, modifiers: int):
         if symbol == arcade.key.W:
@@ -146,13 +146,3 @@ class MyGame(arcade.Window):
     def on_mouse_press(self, x: float, y: float, button: int, modifiers: int):
         if button == arcade.MOUSE_BUTTON_LEFT:
             arcade.play_sound(self.shot)
-
-
-def main():
-    window = MyGame()
-    window.setup()
-    arcade.run()
-
-
-main()
-
