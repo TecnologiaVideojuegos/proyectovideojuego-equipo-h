@@ -24,21 +24,6 @@ class LivingBeing(arcade.Sprite):
         else:
             self.radians = -math.acos(x_)
 
-    def upd_position(self, screen_width, screen_height):
-        # Move the ball
-        self.center_y += self.change_y
-        self.center_x += self.change_x
-
-        # See if the ball hit the edge of the screen. If so, change direction
-        if self.center_x < 0:
-            self.center_x = 0
-        if self.center_x > screen_width:
-            self.center_x = screen_width
-        if self.center_y < 0:
-            self.center_y = 0
-        if self.center_y > screen_height:
-            self.center_y = screen_height
-
     def damage(self):
         if self.alive:
             self.health -= 1
