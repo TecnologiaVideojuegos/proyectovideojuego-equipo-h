@@ -2,7 +2,6 @@
 
 import arcade
 import math
-# import gtk
 from random import randrange
 from src.pcNpc.Player import Player
 from src.pcNpc.Enemy import Enemy
@@ -17,33 +16,33 @@ class MyGame(arcade.Window):
     def __init__(self):
         """ Initializer """
         # Game config
+        super().__init__(800, 600, "Game name")
+        self.set_fullscreen()
+        self.screen_width, self.screen_height = self.get_size()
         self.set_update_rate(1 / 60)
         self.set_mouse_visible(False)
-        self.width = 800
-        self.height = 600
-        # width = gtk.gdk.screen_width()
-        # height = gtk.gdk.screen_height()
-        super().__init__(self.width, self.height, "Game name")
-        self.set_fullscreen()
+        self.state = 1  # 0 - Main menu , 1 - Game , 2 - High Scores , 3 - Game over ...
 
         # Viewport
         self.view_bottom = 0
         self.view_left = 0
-        self.viewport_margin_di = self.width // 2
-        self.viewport_margin_aa = self.height // 2
+        self.viewport_margin_lr = self.screen_width // 2
+        self.viewport_margin_ud = self.screen_height // 2
 
         # Physics
         self.physics = None
 
         # Every Sprite, SpriteList or SpriteList container is declared here
+        # In game sprites
         self.map = Room(0, 0)
-        self.player = Player(self.width // 2, self.height // 2)
+        self.player = Player(self.screen_width // 2, self.screen_height // 2)
         self.enemy_list = arcade.SpriteList()
         self.bullet_list = arcade.SpriteList()
+        # Menu Sprites
+        self.menu_bg = None
+        self.button_list_0 = None
 
     def setup(self):
-        self.enemy_list = arcade.SpriteList()
-
         for i in range(2):
             enemy = Enemy(randrange(self.width), randrange(self.height))
             self.enemy_list.append(enemy)
@@ -54,72 +53,99 @@ class MyGame(arcade.Window):
     def on_draw(self):
         arcade.start_render()
 
-        # Map
-        self.map.draw()
+        if self.state == 0:
+            pass
+        elif self.state == 1:
+            # Map
+            self.map.draw()
 
-        # Player
-        self.player.draw()
+            # Player
+            self.player.draw()
 
-        # Enemy
-        self.enemy_list.draw()
+            # Enemy
+            self.enemy_list.draw()
 
-        # Bullet
-        self.bullet_list.draw()
+            # Bullet
+            self.bullet_list.draw()
+        elif self.state == 2:
+            pass
+        else:
+            pass
+
+    def on_update(self, delta_time: float):
+        """
+        Here goes the game logic
+
+        :param delta_time: The time that passed since the last frame was updated
+        """
+        if self.state == 0:
+            pass
+        elif self.state == 1:
+            # Update enemy speed
+            for enemy in self.enemy_list:
+                assert (isinstance(enemy, Enemy))
+                enemy.go_to(self.player.center_x, self.player.center_y, delta_time)
+
+            # Update player speed and orientation
+            self.player.upd_orientation()
+            self.player.speed_up(self.player.mov_ud, self.player.mov_lr, delta_time * self.player.speed)
+
+            # Update bullseye position
+            self.player.bullseye_pos(self.view_bottom, self.view_left)
+
+            # Move everything and resolve collisions
+            hit_list = self.physics.update()
+
+            # Adjusting viewport
+            self.fix_viewport()
+        elif self.state == 2:
+            pass
+        else:
+            pass
 
     def fix_viewport(self):
         changed = False
 
         # Scroll left
-        left_boundary = self.view_left + self.viewport_margin_di
+        if self.view_left <= 0:
+            left_boundary = 0
+        else:
+            left_boundary = self.view_left + self.viewport_margin_lr
         if self.player.center_x < left_boundary:
             self.view_left -= left_boundary - self.player.center_x
             changed = True
 
         # Scroll right
-        right_boundary = self.view_left + self.width - self.viewport_margin_di
+        if self.view_left + self.screen_width >= 7040:
+            right_boundary = 7040
+        else:
+            right_boundary = self.view_left + self.screen_width - self.viewport_margin_lr
         if self.player.center_x > right_boundary:
             self.view_left += self.player.center_x - right_boundary
             changed = True
 
         # Scroll up
-        top_boundary = self.view_bottom + self.height - self.viewport_margin_aa
+        if self.view_bottom + self.screen_height >= 7040:
+            top_boundary = 7040
+        else:
+            top_boundary = self.view_bottom + self.screen_height - self.viewport_margin_ud
         if self.player.center_y > top_boundary:
             self.view_bottom += self.player.center_y - top_boundary
             changed = True
 
         # Scroll down
-        bottom_boundary = self.view_bottom + self.viewport_margin_aa
+        if self.view_bottom <= 0:
+            bottom_boundary = 0
+        else:
+            bottom_boundary = self.view_bottom + self.viewport_margin_ud
         if self.player.center_y < bottom_boundary:
             self.view_bottom -= bottom_boundary - self.player.center_y
             changed = True
 
         if changed:
-            self.on_mouse_motion(self.player.mouse_position[0], self.player.mouse_position[1], 0, 0)
-            arcade.set_viewport(self.view_left, self.width + self.view_left,
-                                self.view_bottom, self.height + self.view_bottom)
-
-    def on_update(self, delta_time: float):
-        """Here goes the game logic
-
-        :param delta_time: The time that passed since the last frame was updated
-        """
-        # Update enemy speed
-        for enemy in self.enemy_list:
-            assert(isinstance(enemy, Enemy))
-            enemy.go_to(self.player.center_x, self.player.center_y, delta_time)
-
-        # Update player speed and orientation
-        self.player.upd_orientation()
-        self.player.speed_up(self.player.mov_ud, self.player.mov_lr, delta_time * self.player.speed)
-
-        # Update bullseye position
-        self.player.bullseye_pos(self.view_bottom, self.view_left)
-
-        # Move everything and resolve collisions
-        hit_list = self.physics.update()
-
-        # Adjusting viewport
-        self.fix_viewport()
+            # self.on_mouse_motion(self.player.mouse_position[0], self.player.mouse_position[1], 0, 0)
+            arcade.set_viewport(self.view_left, self.screen_width + self.view_left,
+                                self.view_bottom, self.screen_height + self.view_bottom)
 
     def on_key_press(self, symbol: int, modifiers: int):
         if symbol == arcade.key.W:
