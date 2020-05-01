@@ -5,9 +5,38 @@ from src.pcNpc.LivingBeing import LivingBeing
 
 
 class Player(LivingBeing):
-    def __init__(self, position_x: int, position_y: int, image: str, scale: float):
-        super().__init__(position_x, position_y, image, scale)
-        self.weapon = "Machinegun"
+    def __init__(self, position_x: int, position_y: int):
+        super().__init__(position_x, position_y, "./resources/sprites/player/shotgun.png", 1)
+
+        # Skins
+        self.append_texture(arcade.Texture("./resources/sprites/player/machinegun.png"))
+
+        # Weapon
+        self.weapon = "shotgun"
+        self.shotgun_sound = arcade.Sound("./resources/sounds/shotgun.wav")
+        self.machinegun_sound = arcade.Sound("./resources/sounds/machinegun.wav")
+
+        # Movement
+        self.speed = 500
+        self.mov_ud = ""
+        self.mov_lr = ""
+
+        # Bullseye
+        self.bullseye = arcade.Sprite("./resources/sprites/player/bullseye.png", 0.75)
+        self.mouse_position = [0, 0]
+
+    def upd_orientation(self, x=None, y=None):
+        x_ = self.bullseye.center_x - self.center_x
+        y_ = self.bullseye.center_y - self.center_y
+        length = math.sqrt(x_ ** 2 + y_ ** 2)
+        if length == 0:
+            length = 0.00001
+        x_ /= length
+        y_ /= length
+        if y_ > 0:
+            self.radians = math.acos(x_)
+        else:
+            self.radians = -math.acos(x_)
 
     def speed_up(self, ud, lr, speed):
         if ud == "up":
@@ -25,6 +54,15 @@ class Player(LivingBeing):
         if axis == "y":
             self.change_y = 0
 
+    def draw(self):
+        super().draw()
+        self.bullseye.draw()
+
     def draw_debug(self):
-        self.sprite.draw()
-        self.sprite.draw_hit_box(arcade.color.GREEN, 1)
+        super().draw()
+        super().draw_hit_box(arcade.color.GREEN, 1)
+        self.bullseye.draw()
+
+    def bullseye_pos(self, bottom_x, left_y):
+        self.bullseye.center_x = self.mouse_position[0] + bottom_x
+        self.bullseye.center_y = self.mouse_position[1] + left_y

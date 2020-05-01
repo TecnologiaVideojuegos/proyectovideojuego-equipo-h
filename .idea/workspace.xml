@@ -20,22 +20,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c48198f4-7ede-4f91-a0aa-15662352d21b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/physics.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/Sounds/Machinegun.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resources/sounds/machinegun.wav" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/Sounds/Shotgun.wav" beforeDir="false" afterPath="$PROJECT_DIR$/resources/sounds/shotgun.wav" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/Sprites/Enemies/OrangeMonster.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/sprites/enemies/orangeMonster.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/Sprites/GroundTiles/SteelGround1.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/sprites/groundTiles/steelGround1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/Sprites/Player/Bullet.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/sprites/player/bullet.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/Sprites/Player/Bullseye.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/sprites/player/bullseye.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PC_NPC/Enemy.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pcNpc/Enemy.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PC_NPC/LivingBeing.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pcNpc/LivingBeing.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PC_NPC/Player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pcNpc/Player.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PC_NPC/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/gameLauncher.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gameClass.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gameClass.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/map_generation/Map.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/mapGeneration/Map.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/map_generation/Room.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/mapGeneration/Room.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/map_generation/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gameLauncher.py" beforeDir="false" afterPath="$PROJECT_DIR$/gameLauncher.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/sprites/player/machineGun.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/sprites/player/machinegun.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gameClass.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/MyGame.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pcNpc/Enemy.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pcNpc/Enemy.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pcNpc/LivingBeing.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pcNpc/LivingBeing.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pcNpc/Player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pcNpc/Player.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/physics.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Physics.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,7 +53,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PythonContentEntriesConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -99,6 +91,27 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="MyGame" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="Arcade-labs" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Program Files (x86)\Python38-32\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="C:\Users\TheElctrMsc_Gaming\PycharmProjects\proyectovideojuego-equipo-h\src\MyGame.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <module name="Grave_digger" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -112,27 +125,6 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="gameClass" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
-      <module name="Arcade-labs" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="C:\Program Files (x86)\Python38-32\python.exe" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/gameClass.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -269,7 +261,7 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.gameClass" />
+      <item itemvalue="Python.MyGame" />
       <item itemvalue="Python.lab07-control" />
       <item itemvalue="Python.lab07-control (1)" />
       <item itemvalue="Python.lab08-sprites" />
@@ -309,12 +301,17 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
     <state x="669" y="175" key="#GameClass" timestamp="1587770492849">
       <screen x="0" y="0" width="1920" height="1160" />
     </state>
     <state x="669" y="175" key="#GameClass/0.0.1920.1160@0.0.1920.1160" timestamp="1587770492849" />
+    <state x="586" y="258" key="#Inspections" timestamp="1588337343437">
+      <screen x="0" y="0" width="1920" height="1160" />
+    </state>
+    <state x="586" y="258" key="#Inspections/0.0.1920.1160@0.0.1920.1160" timestamp="1588337343437" />
     <state x="552" y="238" key="#Postfix_Completion" timestamp="1587769083815">
       <screen x="0" y="0" width="1920" height="1160" />
     </state>
@@ -336,31 +333,31 @@
       <screen x="0" y="0" width="1920" height="1160" />
     </state>
     <state x="403" y="175" key="#gameLauncher/0.0.1920.1160@0.0.1920.1160" timestamp="1588257608911" />
-    <state x="616" y="237" key="FileChooserDialogImpl" timestamp="1587815934109">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state x="866" y="395" key="FileChooserDialogImpl" timestamp="1588338132161">
+      <screen x="0" y="0" width="1920" height="1160" />
     </state>
     <state x="616" y="237" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1587815934109" />
-    <state x="866" y="395" key="FileChooserDialogImpl/0.0.1920.1160@0.0.1920.1160" timestamp="1587770387987" />
-    <state width="1349" height="321" key="GridCell.Tab.0.bottom" timestamp="1588258030634">
+    <state x="866" y="395" key="FileChooserDialogImpl/0.0.1920.1160@0.0.1920.1160" timestamp="1588338132161" />
+    <state width="1899" height="321" key="GridCell.Tab.0.bottom" timestamp="1588343304081">
       <screen x="0" y="0" width="1920" height="1160" />
     </state>
     <state width="1345" height="179" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1587818195023" />
-    <state width="1349" height="321" key="GridCell.Tab.0.bottom/0.0.1920.1160@0.0.1920.1160" timestamp="1588258030634" />
-    <state width="1349" height="321" key="GridCell.Tab.0.center" timestamp="1588258030634">
+    <state width="1899" height="321" key="GridCell.Tab.0.bottom/0.0.1920.1160@0.0.1920.1160" timestamp="1588343304081" />
+    <state width="1899" height="321" key="GridCell.Tab.0.center" timestamp="1588343304081">
       <screen x="0" y="0" width="1920" height="1160" />
     </state>
     <state width="1345" height="179" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1587818195022" />
-    <state width="1349" height="321" key="GridCell.Tab.0.center/0.0.1920.1160@0.0.1920.1160" timestamp="1588258030634" />
-    <state width="1349" height="321" key="GridCell.Tab.0.left" timestamp="1588258030634">
+    <state width="1899" height="321" key="GridCell.Tab.0.center/0.0.1920.1160@0.0.1920.1160" timestamp="1588343304081" />
+    <state width="1899" height="321" key="GridCell.Tab.0.left" timestamp="1588343304081">
       <screen x="0" y="0" width="1920" height="1160" />
     </state>
     <state width="1345" height="179" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1587818195021" />
-    <state width="1349" height="321" key="GridCell.Tab.0.left/0.0.1920.1160@0.0.1920.1160" timestamp="1588258030634" />
-    <state width="1349" height="321" key="GridCell.Tab.0.right" timestamp="1588258030634">
+    <state width="1899" height="321" key="GridCell.Tab.0.left/0.0.1920.1160@0.0.1920.1160" timestamp="1588343304081" />
+    <state width="1899" height="321" key="GridCell.Tab.0.right" timestamp="1588343304081">
       <screen x="0" y="0" width="1920" height="1160" />
     </state>
     <state width="1345" height="179" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1587818195023" />
-    <state width="1349" height="321" key="GridCell.Tab.0.right/0.0.1920.1160@0.0.1920.1160" timestamp="1588258030634" />
+    <state width="1899" height="321" key="GridCell.Tab.0.right/0.0.1920.1160@0.0.1920.1160" timestamp="1588343304081" />
     <state width="1899" height="396" key="GridCell.Tab.1.bottom" timestamp="1587786098617">
       <screen x="0" y="0" width="1920" height="1160" />
     </state>
@@ -377,18 +374,26 @@
       <screen x="0" y="0" width="1920" height="1160" />
     </state>
     <state width="1899" height="396" key="GridCell.Tab.1.right/0.0.1920.1160@0.0.1920.1160" timestamp="1587786098617" />
-    <state x="368" y="17" key="SettingsEditor" timestamp="1587815942173">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state x="590" y="182" key="SettingsEditor" timestamp="1588338194898">
+      <screen x="0" y="0" width="1920" height="1160" />
     </state>
     <state x="368" y="17" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1587815942173" />
-    <state x="590" y="182" key="SettingsEditor/0.0.1920.1160@0.0.1920.1160" timestamp="1587770399479" />
+    <state x="590" y="182" key="SettingsEditor/0.0.1920.1160@0.0.1920.1160" timestamp="1588338194898" />
     <state x="656" y="404" key="com.intellij.ide.util.TipDialog" timestamp="1587768940330">
       <screen x="0" y="0" width="1920" height="1160" />
     </state>
     <state x="656" y="404" key="com.intellij.ide.util.TipDialog/0.0.1920.1160@0.0.1920.1160" timestamp="1587768940330" />
-    <state x="1071" y="356" key="refactoring.ChangeSignatureDialog" timestamp="1587210599891">
+    <state width="600" height="428" key="javadoc.popup" timestamp="1588337359629">
       <screen x="0" y="0" width="1920" height="1160" />
     </state>
-    <state x="1071" y="356" key="refactoring.ChangeSignatureDialog/0.0.1920.1160@0.0.1920.1160" timestamp="1587210599891" />
+    <state width="600" height="428" key="javadoc.popup/0.0.1920.1160@0.0.1920.1160" timestamp="1588337359629" />
+    <state x="1071" y="356" key="refactoring.ChangeSignatureDialog" timestamp="1588343526277">
+      <screen x="0" y="0" width="1920" height="1160" />
+    </state>
+    <state x="1071" y="356" key="refactoring.ChangeSignatureDialog/0.0.1920.1160@0.0.1920.1160" timestamp="1588343526277" />
+    <state x="778" y="291" width="672" height="678" key="search.everywhere.popup" timestamp="1588336307096">
+      <screen x="0" y="0" width="1920" height="1160" />
+    </state>
+    <state x="778" y="291" width="672" height="678" key="search.everywhere.popup/0.0.1920.1160@0.0.1920.1160" timestamp="1588336307096" />
   </component>
 </project>

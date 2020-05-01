@@ -1,5 +1,5 @@
 import arcade
-from src.gameClass import MyGame
+from src.MyGame import MyGame
 
 
 def main():
