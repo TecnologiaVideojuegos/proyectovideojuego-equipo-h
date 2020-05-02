@@ -52,7 +52,7 @@ class MyGame(arcade.Window):
             self.enemy_list.append(enemy)
 
         # Setup the map
-        self.map.setup_room(True, True, True, True)
+        self.map.setup_room()
         self.physics = Physics(self.player, self.enemy_list, self.bullet_list, self.map.wall_list)
 
         # Setup the buttons
