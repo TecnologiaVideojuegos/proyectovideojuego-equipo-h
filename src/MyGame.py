@@ -75,7 +75,7 @@ class MyGame(arcade.Window):
         if self.state == 0:
             arcade.set_background_color(arcade.color.BLACK)
             for button in self.button_list_0:
-                assert (isinstance(button, arcade.gui.TextButton))
+                assert (isinstance(button, Button))
                 button.draw()
 
         elif self.state == 1:
