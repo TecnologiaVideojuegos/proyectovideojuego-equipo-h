@@ -38,21 +38,19 @@ class Player(LivingBeing):
         else:
             self.radians = -math.acos(x_)
 
-    def speed_up(self, ud, lr, speed):
-        if ud == "up":
-            self.change_y = speed
-        elif ud == "down":
-            self.change_y = -speed
-        if lr == "right":
-            self.change_x = speed
-        elif lr == "left":
-            self.change_x = -speed
-
-    def full_stop(self, axis: str):
-        if axis == "x":
-            self.change_x = 0
-        if axis == "y":
+    def speed_up(self, delta_time):
+        if self.mov_ud == "up":
+            self.change_y = self.speed * delta_time
+        elif self.mov_ud == "down":
+            self.change_y = -self.speed * delta_time
+        elif self.mov_ud == "":
             self.change_y = 0
+        if self.mov_lr == "right":
+            self.change_x = self.speed * delta_time
+        elif self.mov_lr == "left":
+            self.change_x = -self.speed * delta_time
+        elif self.mov_lr == "":
+            self.change_x = 0
 
     def draw(self):
         super().draw()
