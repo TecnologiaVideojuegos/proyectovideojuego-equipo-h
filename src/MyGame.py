@@ -66,7 +66,7 @@ class MyGame(arcade.Window):
         # Setup main menu buttons (state 0)
         button = Button(self.screen_width // 2, self.screen_height // 2,
                         self.screen_width // 10, self.screen_height // 10,
-                        "Nueva partida", theme)
+                        "New Game", theme)
         self.button_list_0.append(button)
 
     def on_draw(self):
