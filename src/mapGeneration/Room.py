@@ -9,96 +9,73 @@ class Room:
         self.room_y = y
         self.wall_list = arcade.SpriteList()
         self.floor_list = arcade.SpriteList()
-        self.enemy_list = arcade.SpriteList()
 
-    def setup_room(self, up: bool, right: bool, left: bool, down: bool):
-        """Changes the room procedurally so that it has an entrance wherever the parameters say"""
-        # Filling the floor with tiles
-        for x in range(self.room_x + 32, self.room_x + 1376, 64):
-            for y in range(self.room_y + 32, self.room_y + 1376, 64):
-                tile = arcade.Sprite("./resources/sprites/groundTiles/steelGround1.png", 1)
+    @staticmethod
+    def random_wall():
+        rnd_wall = randrange(2)
+        rnd_rotation = randrange(4)
+        wall = None
+        if rnd_wall == 0:
+            wall = arcade.Sprite("./resources/sprites/groundTiles/cyberGroundTile1.png", 1)
+        elif rnd_wall == 1:
+            wall = arcade.Sprite("./resources/sprites/groundTiles/cyberGroundTile2.png", 1)
+        wall.angle = rnd_rotation * 90
+        return wall
+
+    @staticmethod
+    def random_floor():
+        rnd_tile = randrange(2)
+        rnd_rotation = randrange(4)
+        tile = None
+        if rnd_tile == 0:
+            tile = arcade.Sprite("./resources/sprites/groundTiles/steelGround1.png", 1)
+        elif rnd_tile == 1:
+            tile = arcade.Sprite("./resources/sprites/groundTiles/steelGround2.png", 1)
+        tile.angle = rnd_rotation * 90
+        return tile
+
+    def setup_room(self):
+        """
+        Sets up the ground tiles and the basic walls of a room to be used by the game
+
+        :return:
+        """
+        # Fill the floor
+        for x in range(self.room_x + 96, self.room_x + 7040 - 32, 64):
+            for y in range(self.room_y + 96, self.room_y + 7040 - 32, 64):
+                tile = self.random_floor()
                 tile.center_x = x
                 tile.center_y = y
                 self.floor_list.append(tile)
 
-        # Filling in the basic walls
-        if down:
-            for x in range(self.room_x + 32, self.room_x + 608, 64):
-                wall = arcade.Sprite("./resources/sprites/groundTiles/cyberGroundTile1.png", 1)
-                wall.center_x = x
-                wall.center_y = self.room_y + 32
-                self.wall_list.append(wall)
+        # Fill bottom walls
+        for x in range(self.room_x + 32, self.room_x + 7040 + 32, 64):
+            wall = self.random_wall()
+            wall.center_x = x
+            wall.center_y = self.room_y + 32
+            self.wall_list.append(wall)
 
-            for x in range(self.room_x + 736, self.room_x + 1312, 64):
-                wall = arcade.Sprite("./resources/sprites/groundTiles/cyberGroundTile1.png", 1)
-                wall.center_x = x
-                wall.center_y = self.room_y + 32
-                self.wall_list.append(wall)
-        else:
-            for x in range(self.room_x + 32, self.room_x + 1312, 64):
-                wall = arcade.Sprite("./resources/sprites/groundTiles/cyberGroundTile1.png", 1)
-                wall.center_x = x
-                wall.center_y = self.room_y + 32
-                self.wall_list.append(wall)
+        # Fill left walls
+        for y in range(self.room_x + 32, self.room_x + 7040 + 32, 64):
+            wall = self.random_wall()
+            wall.center_x = self.room_x + 32
+            wall.center_y = y
+            self.wall_list.append(wall)
 
-        if up:
-            for x in range(self.room_x + 32, self.room_x + 608, 64):
-                wall = arcade.Sprite("./resources/sprites/groundTiles/cyberGroundTile1.png", 1)
-                wall.center_x = x
-                wall.center_y = self.room_y + 1312
-                self.wall_list.append(wall)
+        # Fill top walls
+        for x in range(self.room_x + 32, self.room_x + 7040 + 32, 64):
+            wall = self.random_wall()
+            wall.center_x = x
+            wall.center_y = self.room_y + 7040 - 32
+            self.wall_list.append(wall)
 
-            for x in range(self.room_x + 736, self.room_x + 1312, 64):
-                wall = arcade.Sprite("./resources/sprites/groundTiles/cyberGroundTile1.png", 1)
-                wall.center_x = x
-                wall.center_y = self.room_y + 1312
-                self.wall_list.append(wall)
-        else:
-            for x in range(self.room_x + 32, self.room_x + 1312, 64):
-                wall = arcade.Sprite("./resources/sprites/groundTiles/cyberGroundTile1.png", 1)
-                wall.center_x = x
-                wall.center_y = self.room_y + 1376
-                self.wall_list.append(wall)
-
-        if left:
-            for y in range(self.room_y + 32, self.room_y + 608, 64):
-                wall = arcade.Sprite("./resources/sprites/groundTiles/cyberGroundTile1.png", 1)
-                wall.center_x = self.room_x + 32
-                wall.center_y = y
-                self.wall_list.append(wall)
-
-            for y in range(self.room_y + 736, self.room_y + 1312, 64):
-                wall = arcade.Sprite("./resources/sprites/groundTiles/cyberGroundTile1.png", 1)
-                wall.center_x = self.room_x + 32
-                wall.center_y = y
-                self.wall_list.append(wall)
-        else:
-            for y in range(self.room_y + 32, self.room_y + 1312, 64):
-                wall = arcade.Sprite("./resources/sprites/groundTiles/cyberGroundTile1.png", 1)
-                wall.center_x = self.room_x + 32
-                wall.center_y = y
-                self.wall_list.append(wall)
-
-        if right:
-            for y in range(self.room_y + 32, self.room_y + 608, 64):
-                wall = arcade.Sprite("./resources/sprites/groundTiles/cyberGroundTile1.png", 1)
-                wall.center_x = self.room_x + 1312
-                wall.center_y = y
-                self.wall_list.append(wall)
-
-            for y in range(self.room_y + 736, self.room_y + 1376, 64):
-                wall = arcade.Sprite("./resources/sprites/groundTiles/cyberGroundTile1.png", 1)
-                wall.center_x = self.room_x + 1312
-                wall.center_y = y
-                self.wall_list.append(wall)
-        else:
-            for y in range(self.room_y + 32, self.room_y + 1312, 64):
-                wall = arcade.Sprite("./resources/sprites/groundTiles/cyberGroundTile1.png", 1)
-                wall.center_x = self.room_x + 1312
-                wall.center_y = y
-                self.wall_list.append(wall)
+        # Fill right walls
+        for y in range(self.room_x + 32, self.room_x + 7040 + 32, 64):
+            wall = self.random_wall()
+            wall.center_x = self.room_y + 7040 - 32
+            wall.center_y = y
+            self.wall_list.append(wall)
 
     def draw(self):
         self.floor_list.draw()
         self.wall_list.draw()
-        self.enemy_list.draw()
