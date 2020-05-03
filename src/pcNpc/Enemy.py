@@ -25,11 +25,11 @@ class Enemy(LivingBeing):
     def go_to(self, x, y, delta_time):
         dx = self.center_x - x
         dy = self.center_y - y
-        d = math.sqrt(dx**2 + dy**2)
+        d = math.sqrt(dx ** 2 + dy ** 2)
         if d == 0:
             d = 0.0001
-        self.change_x = -self.speed/d*dx * delta_time
-        self.change_y = -self.speed/d*dy * delta_time
+        self.change_x = -self.speed / d * dx * delta_time
+        self.change_y = -self.speed / d * dy * delta_time
 
     def draw_debug(self):
         self.draw()

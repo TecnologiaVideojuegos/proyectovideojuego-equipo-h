@@ -20,8 +20,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c48198f4-7ede-4f91-a0aa-15662352d21b" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/pcNpc/Bullet.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MyGame.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/MyGame.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Physics.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/Physics.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mapGeneration/Map.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/menu/Button.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/menu/Button.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pcNpc/AStar.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pcNpc/AStar.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pcNpc/Enemy.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pcNpc/Enemy.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pcNpc/LivingBeing.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pcNpc/LivingBeing.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pcNpc/Player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pcNpc/Player.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,7 +54,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Documents/GitHub/RayCasting" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PythonContentEntriesConfigurable" />
   </component>
   <component name="RecentsManager">
@@ -256,11 +264,11 @@
     </configuration>
     <list>
       <item itemvalue="Python.MyGame" />
+      <item itemvalue="Python.Map" />
+      <item itemvalue="Python.MyGame (1)" />
+      <item itemvalue="Python.gameLauncher" />
       <item itemvalue="Python.lab07-control (1)" />
       <item itemvalue="Python.lab08-sprites" />
-      <item itemvalue="Python.Map" />
-      <item itemvalue="Python.gameLauncher" />
-      <item itemvalue="Python.MyGame (1)" />
     </list>
     <recent_temporary>
       <list>
@@ -319,39 +327,39 @@
       <screen x="0" y="0" width="1920" height="1160" />
     </state>
     <state x="601" y="383" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1160@0.0.1920.1160" timestamp="1587211611020" />
-    <state x="690" y="327" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1587211275407">
+    <state x="690" y="327" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1588473844732">
       <screen x="0" y="0" width="1920" height="1160" />
     </state>
-    <state x="690" y="327" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1160@0.0.1920.1160" timestamp="1587211275407" />
+    <state x="690" y="327" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1160@0.0.1920.1160" timestamp="1588473844732" />
     <state x="403" y="175" key="#gameLauncher" timestamp="1588257608911">
       <screen x="0" y="0" width="1920" height="1160" />
     </state>
     <state x="403" y="175" key="#gameLauncher/0.0.1920.1160@0.0.1920.1160" timestamp="1588257608911" />
-    <state x="866" y="395" key="FileChooserDialogImpl" timestamp="1588347032572">
+    <state x="866" y="395" key="FileChooserDialogImpl" timestamp="1588472280217">
       <screen x="0" y="0" width="1920" height="1160" />
     </state>
     <state x="616" y="237" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1587815934109" />
-    <state x="866" y="395" key="FileChooserDialogImpl/0.0.1920.1160@0.0.1920.1160" timestamp="1588347032572" />
-    <state width="1899" height="321" key="GridCell.Tab.0.bottom" timestamp="1588350345278">
+    <state x="866" y="395" key="FileChooserDialogImpl/0.0.1920.1160@0.0.1920.1160" timestamp="1588472280217" />
+    <state width="1899" height="321" key="GridCell.Tab.0.bottom" timestamp="1588475769582">
       <screen x="0" y="0" width="1920" height="1160" />
     </state>
     <state width="1345" height="179" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1587818195023" />
-    <state width="1899" height="321" key="GridCell.Tab.0.bottom/0.0.1920.1160@0.0.1920.1160" timestamp="1588350345278" />
-    <state width="1899" height="321" key="GridCell.Tab.0.center" timestamp="1588350345278">
+    <state width="1899" height="321" key="GridCell.Tab.0.bottom/0.0.1920.1160@0.0.1920.1160" timestamp="1588475769582" />
+    <state width="1899" height="321" key="GridCell.Tab.0.center" timestamp="1588475769582">
       <screen x="0" y="0" width="1920" height="1160" />
     </state>
     <state width="1345" height="179" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1587818195022" />
-    <state width="1899" height="321" key="GridCell.Tab.0.center/0.0.1920.1160@0.0.1920.1160" timestamp="1588350345278" />
-    <state width="1899" height="321" key="GridCell.Tab.0.left" timestamp="1588350345278">
+    <state width="1899" height="321" key="GridCell.Tab.0.center/0.0.1920.1160@0.0.1920.1160" timestamp="1588475769582" />
+    <state width="1899" height="321" key="GridCell.Tab.0.left" timestamp="1588475769582">
       <screen x="0" y="0" width="1920" height="1160" />
     </state>
     <state width="1345" height="179" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1587818195021" />
-    <state width="1899" height="321" key="GridCell.Tab.0.left/0.0.1920.1160@0.0.1920.1160" timestamp="1588350345278" />
-    <state width="1899" height="321" key="GridCell.Tab.0.right" timestamp="1588350345278">
+    <state width="1899" height="321" key="GridCell.Tab.0.left/0.0.1920.1160@0.0.1920.1160" timestamp="1588475769582" />
+    <state width="1899" height="321" key="GridCell.Tab.0.right" timestamp="1588475769582">
       <screen x="0" y="0" width="1920" height="1160" />
     </state>
     <state width="1345" height="179" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1587818195023" />
-    <state width="1899" height="321" key="GridCell.Tab.0.right/0.0.1920.1160@0.0.1920.1160" timestamp="1588350345278" />
+    <state width="1899" height="321" key="GridCell.Tab.0.right/0.0.1920.1160@0.0.1920.1160" timestamp="1588475769582" />
     <state width="1899" height="396" key="GridCell.Tab.1.bottom" timestamp="1587786098617">
       <screen x="0" y="0" width="1920" height="1160" />
     </state>
@@ -368,11 +376,11 @@
       <screen x="0" y="0" width="1920" height="1160" />
     </state>
     <state width="1899" height="396" key="GridCell.Tab.1.right/0.0.1920.1160@0.0.1920.1160" timestamp="1587786098617" />
-    <state x="590" y="182" key="SettingsEditor" timestamp="1588338194898">
+    <state x="590" y="182" key="SettingsEditor" timestamp="1588472304372">
       <screen x="0" y="0" width="1920" height="1160" />
     </state>
     <state x="368" y="17" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1587815942173" />
-    <state x="590" y="182" key="SettingsEditor/0.0.1920.1160@0.0.1920.1160" timestamp="1588338194898" />
+    <state x="590" y="182" key="SettingsEditor/0.0.1920.1160@0.0.1920.1160" timestamp="1588472304372" />
     <state x="656" y="404" key="com.intellij.ide.util.TipDialog" timestamp="1587768940330">
       <screen x="0" y="0" width="1920" height="1160" />
     </state>

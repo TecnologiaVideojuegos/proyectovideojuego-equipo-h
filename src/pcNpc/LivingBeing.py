@@ -4,7 +4,7 @@ from random import randrange
 
 
 class LivingBeing(arcade.Sprite):
-    def __init__(self, position_x, position_y, image: str, scale: float):
+    def __init__(self, position_x: int, position_y: int, image: str, scale: float):
         super().__init__(image, scale)
         self.alive = True
         self.health = None
@@ -28,9 +28,9 @@ class LivingBeing(arcade.Sprite):
         else:
             self.radians = -math.acos(x_)
 
-    def damage(self):
+    def damage(self, damage):
         if self.alive:
-            self.health -= 1
+            self.health -= damage
             if self.health <= 0:
                 self.alive = False
 
