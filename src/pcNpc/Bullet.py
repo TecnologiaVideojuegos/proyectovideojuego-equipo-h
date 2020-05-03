@@ -5,7 +5,7 @@ import math
 class Bullet(arcade.Sprite):
     """Class to handle operations with bullets"""
 
-    def __init__(self, speed: int, travel_distance: int, damage: int, radians: float):
+    def __init__(self, position_x, position_y, speed: int, travel_distance: int, damage: int, radians: float):
         """
         Creates a simple bullet.
 
@@ -14,7 +14,7 @@ class Bullet(arcade.Sprite):
         :param damage: The amount of damage this bullet deals.
         """
 
-        super().__init__("./resources/sprites/player/bullet.png", 1)
+        super().__init__("./resources/sprites/player/bullet.png", 1, center_x=position_x, center_y=position_y)
         self.speed = speed
         self.travel_distance = travel_distance
         self.damage = damage

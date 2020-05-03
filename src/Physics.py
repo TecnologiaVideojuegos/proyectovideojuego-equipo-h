@@ -72,7 +72,7 @@ class Physics:
         else:
             raise Exception("bullets is neither a Sprite nor a SpriteList")
 
-    def update(self):
+    def update(self, delta_time):
         """
         Moves everything, resolves and handles collisions.
 
@@ -91,29 +91,29 @@ class Physics:
 
         # Player
         # --- Move in the x direction
-        self.player.center_x += self.player.change_x
+        self.player.center_x += self.player.change_x * delta_time
 
         # Check for wall hit
         hit_list_x = check_for_collision_with_list(self.player, self.walls)
 
         # If we hit a wall, move so the edges are at the same point
         if len(hit_list_x) > 0:
-            self.player.center_x -= 2*self.player.change_x
+            self.player.center_x -= self.player.change_x * delta_time
 
         # --- Move in the y direction
-        self.player.center_y += self.player.change_y
+        self.player.center_y += self.player.change_y * delta_time
 
         # Check for wall hit
         hit_list_y = check_for_collision_with_list(self.player, self.walls)
 
         # If we hit a wall, move so the edges are at the same point
         if len(hit_list_y) > 0:
-            self.player.center_y -= 2*self.player.change_y
+            self.player.center_y -= self.player.change_y * delta_time
 
         # Enemies
         for enemy in self.enemies:
             # --- Move in the x direction
-            enemy.center_x += enemy.change_x
+            enemy.center_x += enemy.change_x * delta_time
 
             # Check for wall or enemy hit
             hit_list_x = check_for_collision_with_list(enemy, self.walls)
@@ -121,10 +121,10 @@ class Physics:
 
             # If we hit a wall or enemy, move away
             if len(hit_list_x) > 0:
-                enemy.center_x -= enemy.change_x
+                enemy.center_x -= enemy.change_x * delta_time
 
             # --- Move in the y direction
-            enemy.center_y += enemy.change_y
+            enemy.center_y += enemy.change_y * delta_time
 
             # Check for wall or enemy hit
             hit_list_y = check_for_collision_with_list(enemy, self.walls)
@@ -132,16 +132,16 @@ class Physics:
 
             # If we hit a wall, move so the edges are at the same point
             if len(hit_list_y) > 0:
-                enemy.center_y -= enemy.change_y
+                enemy.center_y -= enemy.change_y * delta_time
 
         # Bullets
         for bullet in self.bullets:
             assert(isinstance(bullet, Bullet))
             # --- Move in the x direction
-            bullet.center_x += bullet.change_x
+            bullet.center_x += bullet.change_x * delta_time
 
             # --- Move in the y direction
-            bullet.center_y += bullet.change_y
+            bullet.center_y += bullet.change_y * delta_time
 
             # Check enemies hit
             hit_list = check_for_collision_with_list(bullet, self.enemies)

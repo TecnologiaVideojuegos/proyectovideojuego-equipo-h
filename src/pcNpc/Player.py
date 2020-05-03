@@ -52,17 +52,17 @@ class Player(LivingBeing):
         else:
             self.radians = -math.acos(x_)
 
-    def speed_up(self, delta_time):
+    def speed_up(self):
         if self.mov_ud == "up":
-            self.change_y = self.speed * delta_time
+            self.change_y = self.speed
         elif self.mov_ud == "down":
-            self.change_y = -self.speed * delta_time
+            self.change_y = -self.speed
         elif self.mov_ud == "":
             self.change_y = 0
         if self.mov_lr == "right":
-            self.change_x = self.speed * delta_time
+            self.change_x = self.speed
         elif self.mov_lr == "left":
-            self.change_x = -self.speed * delta_time
+            self.change_x = -self.speed
         elif self.mov_lr == "":
             self.change_x = 0
 
@@ -97,7 +97,7 @@ class Player(LivingBeing):
                 for i in range(5):
                     rnd_angle = randrange(25)
                     angle = self.radians - math.pi / 6 + math.pi / 75 * rnd_angle
-                    bullet = Bullet(0, 1000, 3, angle)
+                    bullet = Bullet(self.center_x, self.center_y, 2000, 1000, 3, angle)
                     bullet_list.append(bullet)
                 arcade.play_sound(self.shotgun_sound)
                 self.shooting = False

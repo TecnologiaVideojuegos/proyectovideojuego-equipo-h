@@ -133,6 +133,7 @@ class MyGame(arcade.Window):
 
             # Bullets
             self.bullet_list.draw()
+            print(elem for elem in self.bullet_list)
         elif self.state == 2:
             pass
         else:
@@ -156,25 +157,25 @@ class MyGame(arcade.Window):
                 # If the player is trying to shoot resolve the action
                 new_bullet_list = self.player.shoot(delta_time, reloading=False)
                 self.physics.append_bullet(new_bullet_list)
-                for bullet in new_bullet_list:
-                    self.bullet_list.append(bullet)
+                # for bullet in new_bullet_list:
+                #     self.bullet_list.append(bullet)
             else:
                 # If the player ain't shooting reload the weapon
                 self.player.shoot(delta_time, reloading=True)
             # Update enemy speed
             for enemy in self.enemy_list:
                 assert (isinstance(enemy, Enemy))
-                enemy.go_to(self.player.center_x, self.player.center_y, delta_time)
+                enemy.go_to(self.player.center_x, self.player.center_y)
 
             # Update player speed and orientation
             self.player.upd_orientation()
-            self.player.speed_up(delta_time)
+            self.player.speed_up()
 
             # Update bullseye position
             self.player.bullseye_pos(self.view_bottom, self.view_left)
 
             # Move everything and resolve collisions
-            hit_list = self.physics.update()
+            hit_list = self.physics.update(delta_time)
 
             # Adjusting viewport
             self.adjust_viewport()
