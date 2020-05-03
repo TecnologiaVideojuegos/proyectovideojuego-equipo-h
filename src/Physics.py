@@ -1,5 +1,6 @@
 from arcade import *
 from src.pcNpc.LivingBeing import LivingBeing
+from src.pcNpc.Bullet import Bullet
 from src.pcNpc.Player import Player
 from src.pcNpc.Enemy import Enemy
 
@@ -36,6 +37,11 @@ class Physics:
             for enemy in enemies:
                 self.enemies.append(enemy)
 
+        # or if bullets is a list
+        elif isinstance(enemies, list):
+            for bullet in enemies:
+                self.bullets.append(bullet)
+
         # or if enemies is none of them
         else:
             raise Exception("enemies is neither a Sprite nor a SpriteList")
@@ -57,18 +63,23 @@ class Physics:
             for bullet in bullets:
                 self.bullets.append(bullet)
 
+        # or if bullets is a list
+        elif isinstance(bullets, list):
+            for bullet in bullets:
+                self.bullets.append(bullet)
+
         # or if bullets is none of them
         else:
             raise Exception("bullets is neither a Sprite nor a SpriteList")
 
     def update(self):
         """
-        Move everything and resolve collisions.
+        Moves everything, resolves and handles collisions.
 
-        This procedure rotates all enemies towards the player. It doesn't handle the player rotation
+        Although this procedure rotates all enemies towards the player, it doesn't handle the player rotation.
 
         :returns: SpriteList with all enemies contacted by bullets. Empty list if no sprites. The first Sprite will be
-            the player in case it is contacted by an enemy.
+        the player in case it is contacted by an enemy.
         """
 
         complete_hit_list = []
@@ -125,6 +136,7 @@ class Physics:
 
         # Bullets
         for bullet in self.bullets:
+            assert(isinstance(bullet, Bullet))
             # --- Move in the x direction
             bullet.center_x += bullet.change_x
 
@@ -133,10 +145,12 @@ class Physics:
 
             # Check enemies hit
             hit_list = check_for_collision_with_list(bullet, self.enemies)
-            for sprite in complete_hit_list:
-                sprite.remove_from_sprite_lists()
-                if sprite not in complete_hit_list:
-                    complete_hit_list.append(sprite)
+            for enemy_ in hit_list:
+                assert(isinstance(enemy_, LivingBeing))
+                enemy_.damage(bullet.damage)
+                if enemy_ not in complete_hit_list and not enemy_.alive:
+                    enemy_.remove_from_sprite_lists()
+                    complete_hit_list.append(enemy_)
 
             # Check for wall hit
             hit_list = check_for_collision_with_list(bullet, self.walls)

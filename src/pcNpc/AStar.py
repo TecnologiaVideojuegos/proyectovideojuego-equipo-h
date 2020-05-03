@@ -43,10 +43,10 @@ def has_line_of_sight(point_1: Point,
     return True
 
 
-
 """
 Classic A-star algorithm for path finding.
 """
+
 
 def _spot_is_blocked(position, moving_sprite, blocking_sprites):
     original_pos = moving_sprite.position
@@ -112,7 +112,6 @@ class _AStarGraph(object):
             return 1
         else:
             return 1.414
-
 
         return 1  # Normal movement cost
 
@@ -182,10 +181,11 @@ def _AStarSearch(start, end, graph):
 
 
 def _collapse(pos, grid_size):
-    return int(pos[0] // grid_size),  int(pos[1] // grid_size)
+    return int(pos[0] // grid_size), int(pos[1] // grid_size)
+
 
 def _expand(pos, grid_size):
-    return int(pos[0] * grid_size),  int(pos[1] * grid_size)
+    return int(pos[0] * grid_size), int(pos[1] * grid_size)
 
 
 class AStarBarrierList:
@@ -193,6 +193,7 @@ class AStarBarrierList:
     Class that manages a list of barriers that can be encountered during
     A* path finding.
     """
+
     def __init__(self,
                  moving_sprite,
                  blocking_sprites,
@@ -247,7 +248,6 @@ class AStarBarrierList:
 
         # Restore original location
         self.moving_sprite.position = original_pos
-
 
 
 def astar_calculate_path(start_point: Point,

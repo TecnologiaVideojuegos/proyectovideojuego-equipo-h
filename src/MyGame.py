@@ -6,16 +6,16 @@ from random import randrange
 from src.pcNpc.Player import Player
 from src.pcNpc.Enemy import Enemy
 from src.menu.Button import Button
-from src.mapGeneration.Map import Map
 from src.mapGeneration.Room import Room
 from src.Physics import Physics
 
 
 class MyGame(arcade.Window):
-    """ Our Custom Window Class"""
+    """Our Custom Window Class"""
 
     def __init__(self):
         """ Initializer """
+
         # Game config
         super().__init__(800, 600, "Game name")
         self.set_fullscreen()
@@ -56,80 +56,20 @@ class MyGame(arcade.Window):
         self.physics = Physics(self.player, self.enemy_list, self.bullet_list, self.map.wall_list)
 
         # Setup the buttons
-        theme = arcade.gui.Theme()
-        theme.set_font(24, arcade.color.WHITE)
-        normal = ":resources:gui_themes/Fantasy/Buttons/Normal.png"
-        hover = ":resources:gui_themes/Fantasy/Buttons/Hover.png"
-        clicked = ":resources:gui_themes/Fantasy/Buttons/Clicked.png"
-        locked = ":resources:gui_themes/Fantasy/Buttons/Locked.png"
-        theme.add_button_textures(normal, hover, clicked, locked)
         # Setup main menu buttons (state 0)
         button = Button(self.screen_width // 2, self.screen_height // 2,
                         self.screen_width // 10, self.screen_height // 10,
-                        "New Game", theme)
+                        "New Game")
         self.button_list_0.append(button)
 
-    def on_draw(self):
-        arcade.start_render()
+    def reset_viewport(self):
+        if self.view_left != 0 and self.view_bottom != 0:
+            self.view_left = 0
+            self.view_bottom = 0
+            arcade.set_viewport(self.view_left, self.screen_width + self.view_left,
+                                self.view_bottom, self.screen_height + self.view_bottom)
 
-        if self.state == 0:
-            arcade.set_background_color(arcade.color.BLACK)
-            for button in self.button_list_0:
-                assert (isinstance(button, Button))
-                button.draw()
-
-        elif self.state == 1:
-            # Map
-            self.map.draw()
-
-            # Player
-            self.player.draw()
-
-            # Enemy
-            self.enemy_list.draw()
-
-            # Bullet
-            self.bullet_list.draw()
-        elif self.state == 2:
-            pass
-        else:
-            pass
-
-    def on_update(self, delta_time: float):
-        """
-        Here goes the game logic
-
-        :param delta_time: The time that passed since the last frame was updated
-        """
-        if self.state == 0:
-            if self.button_list_0[0].pressed:
-                self.state = 1
-                self.set_mouse_visible(False)
-
-        elif self.state == 1:
-            # Update enemy speed
-            for enemy in self.enemy_list:
-                assert (isinstance(enemy, Enemy))
-                enemy.go_to(self.player.center_x, self.player.center_y, delta_time)
-
-            # Update player speed and orientation
-            self.player.upd_orientation()
-            self.player.speed_up(delta_time)
-
-            # Update bullseye position
-            self.player.bullseye_pos(self.view_bottom, self.view_left)
-
-            # Move everything and resolve collisions
-            hit_list = self.physics.update()
-
-            # Adjusting viewport
-            self.fix_viewport()
-        elif self.state == 2:
-            pass
-        else:
-            pass
-
-    def fix_viewport(self):
+    def adjust_viewport(self):
         changed = False
 
         # Scroll left
@@ -172,6 +112,76 @@ class MyGame(arcade.Window):
             # self.on_mouse_motion(self.player.mouse_position[0], self.player.mouse_position[1], 0, 0)
             arcade.set_viewport(self.view_left, self.screen_width + self.view_left,
                                 self.view_bottom, self.screen_height + self.view_bottom)
+
+    def on_draw(self):
+        arcade.start_render()
+
+        if self.state == 0:
+            arcade.set_background_color(arcade.color.BLACK)
+            for button in self.button_list_0:
+                button.draw()
+
+        elif self.state == 1:
+            # Map
+            self.map.draw()
+
+            # Player
+            self.player.draw()
+
+            # Enemies
+            self.enemy_list.draw()
+
+            # Bullets
+            self.bullet_list.draw()
+        elif self.state == 2:
+            pass
+        else:
+            pass
+
+    def on_update(self, delta_time: float):
+        """
+        Here goes the game logic
+
+        :param delta_time: The time that passed since the last frame was updated
+        """
+        if self.state == 0:
+            self.reset_viewport()
+            if self.button_list_0[0].pressed:
+                self.state = 1
+                self.set_mouse_visible(False)
+
+        elif self.state == 1:
+            # Generate bullets
+            if self.player.shooting:
+                # If the player is trying to shoot resolve the action
+                new_bullet_list = self.player.shoot(delta_time, reloading=False)
+                self.physics.append_bullet(new_bullet_list)
+                for bullet in new_bullet_list:
+                    self.bullet_list.append(bullet)
+            else:
+                # If the player ain't shooting reload the weapon
+                self.player.shoot(delta_time, reloading=True)
+            # Update enemy speed
+            for enemy in self.enemy_list:
+                assert (isinstance(enemy, Enemy))
+                enemy.go_to(self.player.center_x, self.player.center_y, delta_time)
+
+            # Update player speed and orientation
+            self.player.upd_orientation()
+            self.player.speed_up(delta_time)
+
+            # Update bullseye position
+            self.player.bullseye_pos(self.view_bottom, self.view_left)
+
+            # Move everything and resolve collisions
+            hit_list = self.physics.update()
+
+            # Adjusting viewport
+            self.adjust_viewport()
+        elif self.state == 2:
+            pass
+        else:
+            pass
 
     def on_key_press(self, symbol: int, modifiers: int):
         if self.state == 0:
@@ -216,8 +226,8 @@ class MyGame(arcade.Window):
                 assert (isinstance(button, arcade.gui.TextButton))
                 button.check_mouse_press(x, y)
         elif self.state == 1:
-            if button == arcade.MOUSE_BUTTON_LEFT and self.player.weapon == "shotgun":
-                arcade.play_sound(self.player.shotgun_sound)
+            if button == arcade.MOUSE_BUTTON_LEFT:
+                self.player.shooting = True
         elif self.state == 2:
             pass
         elif self.state == 3:
@@ -229,7 +239,8 @@ class MyGame(arcade.Window):
                 assert (isinstance(button, arcade.gui.TextButton))
                 button.check_mouse_release(x, y)
         elif self.state == 1:
-            pass
+            if button == arcade.MOUSE_BUTTON_LEFT:
+                self.player.shooting = False
         elif self.state == 2:
             pass
         elif self.state == 3:
