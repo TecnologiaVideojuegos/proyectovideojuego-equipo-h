@@ -42,6 +42,7 @@ class MyGame(arcade.Window):
         self.button_list_0 = []
         self.button_list_2 = []
         self.button_list_3 = []
+        self.buttonName = ["New Game", "Quit"]
 
     def setup(self):
         """Sets up the game to be run"""
@@ -57,10 +58,11 @@ class MyGame(arcade.Window):
 
         # Setup the buttons
         # Setup main menu buttons (state 0)
-        button = Button(self.screen_width // 2, self.screen_height // 2,
-                        self.screen_width // 10, self.screen_height // 10,
-                        "New Game")
-        self.button_list_0.append(button)
+        for i in range (2):
+            button = Button(self.screen_width // 2, (self.screen_height // 2) - i * 125,
+                            self.screen_width // 8, self.screen_height // 8,
+                            self.buttonName[i])
+            self.button_list_0.append(button)
 
     def reset_viewport(self):
         if self.view_left != 0 and self.view_bottom != 0:
@@ -117,7 +119,7 @@ class MyGame(arcade.Window):
         arcade.start_render()
 
         if self.state == 0:
-            arcade.set_background_color(arcade.color.BLACK)
+            arcade.set_background_color(arcade.color.WHITE)
             for button in self.button_list_0:
                 button.draw()
 
@@ -150,6 +152,8 @@ class MyGame(arcade.Window):
             if self.button_list_0[0].pressed:
                 self.state = 1
                 self.set_mouse_visible(False)
+            elif self.button_list_0[1].pressed:
+                arcade.close_window()
 
         elif self.state == 1:
             # Generate bullets
