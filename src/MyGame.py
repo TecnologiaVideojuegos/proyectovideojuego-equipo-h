@@ -48,7 +48,7 @@ class MyGame(arcade.Window):
 
         # Create the enemies
         for i in range(2):
-            enemy = Enemy(randrange(self.width), randrange(self.height))
+            enemy = Enemy(randrange(32, 7040), randrange(32, 7040))
             self.enemy_list.append(enemy)
 
         # Setup the map
