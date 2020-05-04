@@ -38,11 +38,16 @@ class MyGame(arcade.Window):
         self.player = Player(self.screen_width // 2, self.screen_height // 2)
         self.enemy_list = arcade.SpriteList()
         self.bullet_list = arcade.SpriteList()
+
         # Menu Sprites
         self.button_list_0 = []
         self.button_list_2 = []
         self.button_list_3 = []
         self.buttonName = ["New Game", "Quit"]
+
+        # Pause
+        self.pause_list = []
+        self.pause = False
 
     def setup(self):
         """Sets up the game to be run"""
@@ -63,6 +68,7 @@ class MyGame(arcade.Window):
                             self.screen_width // 8, self.screen_height // 8,
                             self.buttonName[i])
             self.button_list_0.append(button)
+
 
     def reset_viewport(self):
         if self.view_left != 0 and self.view_bottom != 0:
@@ -136,6 +142,23 @@ class MyGame(arcade.Window):
             # Bullets
             self.bullet_list.draw()
             print(elem for elem in self.bullet_list)
+
+            if (self.pause == True):
+                    left, right, bottom, top = arcade.get_viewport()
+
+                    # Pause button
+                    if bottom + 800 > 7040:
+                        bottom = 6340
+
+                    pauseButton = Button(100 + left, 800 + bottom,
+                                              self.screen_width // 8, self.screen_height // 8,
+                                              "Exit game")
+                    if (len(self.pause_list) == 0):
+                        self.pause_list.append(pauseButton)
+
+                    pauseButton.draw()
+
+
         elif self.state == 2:
             pass
         else:
@@ -151,38 +174,50 @@ class MyGame(arcade.Window):
             self.reset_viewport()
             if self.button_list_0[0].pressed:
                 self.state = 1
-                self.set_mouse_visible(False)
             elif self.button_list_0[1].pressed:
                 arcade.close_window()
 
         elif self.state == 1:
-            # Generate bullets
-            if self.player.shooting:
-                # If the player is trying to shoot resolve the action
-                new_bullet_list = self.player.shoot(delta_time, reloading=False)
-                self.physics.append_bullet(new_bullet_list)
-                # for bullet in new_bullet_list:
-                #     self.bullet_list.append(bullet)
+
+            if (self.pause == False):
+                self.set_mouse_visible(False)
+
+                # Generate bullets
+                if self.player.shooting:
+                    # If the player is trying to shoot resolve the action
+                    new_bullet_list = self.player.shoot(delta_time, reloading=False)
+                    self.physics.append_bullet(new_bullet_list)
+                    # for bullet in new_bullet_list:
+                    #     self.bullet_list.append(bullet)
+                else:
+                    # If the player ain't shooting reload the weapon
+                    self.player.shoot(delta_time, reloading=True)
+                # Update enemy speed
+                for enemy in self.enemy_list:
+                    assert (isinstance(enemy, Enemy))
+                    enemy.go_to(self.player.center_x, self.player.center_y)
+
+                # Update player speed and orientation
+                self.player.upd_orientation()
+                self.player.speed_up()
+
+                # Update bullseye position
+                self.player.bullseye_pos(self.view_bottom, self.view_left)
+
+                # Move everything and resolve collisions
+                hit_list = self.physics.update(delta_time)
+
+                # Adjusting viewport
+                self.adjust_viewport()
+
             else:
-                # If the player ain't shooting reload the weapon
-                self.player.shoot(delta_time, reloading=True)
-            # Update enemy speed
-            for enemy in self.enemy_list:
-                assert (isinstance(enemy, Enemy))
-                enemy.go_to(self.player.center_x, self.player.center_y)
+                self.set_mouse_visible(True)
+                try:
+                    if self.pause_list[0].pressed:
+                        arcade.close_window()
+                except:
+                    pass
 
-            # Update player speed and orientation
-            self.player.upd_orientation()
-            self.player.speed_up()
-
-            # Update bullseye position
-            self.player.bullseye_pos(self.view_bottom, self.view_left)
-
-            # Move everything and resolve collisions
-            hit_list = self.physics.update(delta_time)
-
-            # Adjusting viewport
-            self.adjust_viewport()
         elif self.state == 2:
             pass
         else:
@@ -192,6 +227,13 @@ class MyGame(arcade.Window):
         if self.state == 0:
             pass
         elif self.state == 1:
+            if symbol == arcade.key.ESCAPE:
+                if (self.pause == True):
+                    self.pause_list.clear()
+                    self.pause = False
+                else:
+                    self.pause = True
+
             if symbol == arcade.key.W:
                 self.player.mov_ud = "up"
             elif symbol == arcade.key.A:
@@ -233,6 +275,11 @@ class MyGame(arcade.Window):
         elif self.state == 1:
             if button == arcade.MOUSE_BUTTON_LEFT:
                 self.player.shooting = True
+
+            for button2 in self.pause_list:
+                assert (isinstance(button2, arcade.gui.TextButton))
+                button2.check_mouse_press(x, y)
+
         elif self.state == 2:
             pass
         elif self.state == 3:
@@ -246,6 +293,11 @@ class MyGame(arcade.Window):
         elif self.state == 1:
             if button == arcade.MOUSE_BUTTON_LEFT:
                 self.player.shooting = False
+
+            for button2 in self.pause_list:
+                assert (isinstance(button2, arcade.gui.TextButton))
+                button2.check_mouse_release(x, y)
+
         elif self.state == 2:
             pass
         elif self.state == 3:
