@@ -32,6 +32,10 @@ class MyGame(arcade.Window):
         # Physics
         self.physics = None
 
+        # Music
+        self.song = arcade.Sound("./resources/music/punish_them.wav")
+        self.song_length = 0
+
         # Every Sprite, SpriteList or SpriteList container is declared here
         # In game sprites
         self.map = Room(0, 0)

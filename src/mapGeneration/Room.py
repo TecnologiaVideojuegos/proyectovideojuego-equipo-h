@@ -76,6 +76,15 @@ class Room:
             wall.center_y = y
             self.wall_list.append(wall)
 
+        for x in range(self.room_x + 96, self.room_x + 7040 - 32, 64):
+            for y in range(self.room_y + 96, self.room_y + 7040 - 32, 64):
+                rnd = randrange(100)
+                if rnd < 7:
+                    wall = wall = self.random_wall()
+                    wall.center_x = x
+                    wall.center_y = y
+                    self.wall_list.append(wall)
+
     def draw(self):
         self.floor_list.draw()
         self.wall_list.draw()
