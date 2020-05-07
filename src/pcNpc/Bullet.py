@@ -9,9 +9,12 @@ class Bullet(arcade.Sprite):
         """
         Creates a simple bullet.
 
+        :param position_x: The initial x position of the bullet.
+        :param position_y: The initial y position of the bullet.
         :param speed: The speed at which the bullet moves.
         :param travel_distance: The total distance the bullet can travel.
         :param damage: The amount of damage this bullet deals.
+        :param radians: The initial rotation of the bullet in radians.
         """
 
         super().__init__("./resources/sprites/player/bullet.png", 1, center_x=position_x, center_y=position_y)

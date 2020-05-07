@@ -5,12 +5,11 @@ from src.pcNpc.LivingBeing import LivingBeing
 
 
 class Enemy(LivingBeing):
-    # Cambiar medidas de la ventana por las de la Habitacion
-    def __init__(self, position_x: int, position_y: int):
+    def __init__(self, position_x: int, position_y: int, health: int = 1):
         super().__init__(position_x, position_y, "./resources/sprites/enemies/blueZombie.png", 1)
         self.center_x = position_x
         self.center_y = position_y
-
+        self.health = health
 
     def go_to(self, x, y):
         dx = self.center_x - x

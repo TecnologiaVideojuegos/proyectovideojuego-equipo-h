@@ -75,9 +75,9 @@ class Player(LivingBeing):
         super().draw_hit_box(arcade.color.GREEN, 1)
         self.bullseye.draw()
 
-    def bullseye_pos(self, bottom_x, left_y):
-        self.bullseye.center_x = self.mouse_position[0] + bottom_x
-        self.bullseye.center_y = self.mouse_position[1] + left_y
+    def bullseye_pos(self, left_x, bottom_y):
+        self.bullseye.center_x = self.mouse_position[0] + left_x
+        self.bullseye.center_y = self.mouse_position[1] + bottom_y
 
     def shoot(self, delta_time: float, reloading: bool):
         """
@@ -96,8 +96,8 @@ class Player(LivingBeing):
                 self.shoot_count = 0.75
                 for i in range(5):
                     rnd_angle = randrange(25)
-                    angle = self.radians - math.pi / 6 + math.pi / 75 * rnd_angle
-                    bullet = Bullet(self.center_x, self.center_y, 2000, 1000, 3, angle)
+                    angle = self.radians - math.pi / 12 + math.pi / 225 * rnd_angle
+                    bullet = Bullet(self.center_x, self.center_y, 2000, 600, 3, angle)
                     bullet_list.append(bullet)
                 arcade.play_sound(self.shotgun_sound)
                 self.shooting = False

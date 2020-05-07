@@ -13,7 +13,7 @@ class LivingBeing(arcade.Sprite):
         self.change_x = 0
         self.change_y = 0
         self.radians = 0
-        self.speed = 300
+        self.speed = 600
 
     def upd_orientation(self, x, y):
         x_ = x - self.center_x
