@@ -1,6 +1,5 @@
 import arcade
 
-
 class Button(arcade.gui.TextButton):
     def __init__(self, center_x, center_y, width, height, text):
         super().__init__(center_x, center_y, width, height, text)

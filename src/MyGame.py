@@ -285,8 +285,9 @@ class MyGame(arcade.Window):
                 self.player.shooting = True
 
             for button2 in self.pause_list:
-                assert (isinstance(button2, arcade.gui.TextButton))
-                button2.check_mouse_press(x, y)
+                if isinstance(button2, Button):
+                    left, right, bottom, top = arcade.get_viewport()
+                    button2.check_mouse_press(x + left, y + bottom)
 
         elif self.state == 2:
             pass
@@ -303,8 +304,9 @@ class MyGame(arcade.Window):
                 self.player.shooting = False
 
             for button2 in self.pause_list:
-                assert (isinstance(button2, arcade.gui.TextButton))
-                button2.check_mouse_release(x, y)
+                if isinstance(button2, Button):
+                    left, right, bottom, top = arcade.get_viewport()
+                    button2.check_mouse_release(x + left, y + bottom)
 
         elif self.state == 2:
             pass
