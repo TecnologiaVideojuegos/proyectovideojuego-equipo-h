@@ -1,8 +1,8 @@
 """ The darkness within """
 
 import arcade
-import math
 from random import randrange
+from pcNpc.DEnemy import DEnemy
 from src.pcNpc.Player import Player
 from src.pcNpc.Enemy import Enemy
 from src.menu.Button import Button
@@ -58,7 +58,7 @@ class MyGame(arcade.Window):
         """Sets up the game to be run"""
 
         # Create the enemies
-        for i in range(2):
+        for i in range(8):
             enemy = Enemy(randrange(32, 7040), randrange(32, 7040))
             self.enemy_list.append(enemy)
 
@@ -137,12 +137,12 @@ class MyGame(arcade.Window):
             # Map
             self.map.draw()
 
-            # Player
-            self.player.draw()
-
             # Enemies
             self.dead_list.draw()
             self.enemy_list.draw()
+
+            # Player
+            self.player.draw()
 
             # Bullets
             self.bullet_list.draw()
@@ -211,9 +211,10 @@ class MyGame(arcade.Window):
 
                 for enemy in hit_list:
                     if isinstance(enemy, Enemy):
+                        dead = DEnemy(enemy.left, enemy.bottom)
+                        dead.angle = randrange(360)
                         enemy.remove_from_sprite_lists()
-                        # Change enemy texture to dead
-                        self.dead_list.append(enemy)
+                        self.dead_list.append(dead)
 
                 # Adjusting viewport
                 self.adjust_viewport()
