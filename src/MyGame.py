@@ -50,8 +50,12 @@ class MyGame(arcade.Window):
         self.button_list_3 = []
         self.buttonName = ["New Game", "Quit"]
 
-        # Points
+        # Points and rounds
         self.points = 0
+        self.round = 1
+        self.newRound = True
+        self.numEnemys = 5
+        self.rest = self.numEnemys
 
         # Pause
         self.pause_list = []
@@ -59,11 +63,6 @@ class MyGame(arcade.Window):
 
     def setup(self):
         """Sets up the game to be run"""
-
-        # Create the enemies
-        for i in range(8):
-            enemy = Enemy(randrange(32, 7040), randrange(32, 7040))
-            self.enemy_list.append(enemy)
 
         # Setup the map
         self.map.setup_room()
@@ -140,6 +139,16 @@ class MyGame(arcade.Window):
             # Map
             self.map.draw()
 
+            # Create the enemies
+            if self.newRound:
+                for i in range(self.numEnemys):
+                    enemy = Enemy(randrange(32, 7040), randrange(32, 7040))
+                    self.enemy_list.append(enemy)
+
+                self.newRound = False
+                self.rest = self.numEnemys
+                self.numEnemys += 3
+
             # Enemies
             self.dead_list.draw()
             self.enemy_list.draw()
@@ -166,9 +175,9 @@ class MyGame(arcade.Window):
                         button.draw()
 
             else:
-                start_x = 50 + left
-                start_y = 800 + bottom
-                arcade.draw_text("Puntuación: " + str(self.points), start_x, start_y, arcade.color.WHITE, 40)
+                arcade.draw_text("Puntuación: " + str(self.points), 50 + left, 800 + bottom, arcade.color.WHITE, 40)
+                arcade.draw_text("Ronda: " + str(self.round), 500 + left, 800 + bottom, arcade.color.WHITE, 40)
+                arcade.draw_text("Restantes: " + str(self.rest), 800 + left, 800 + bottom, arcade.color.WHITE, 40)
 
         elif self.state == 2:
             pass
@@ -192,6 +201,11 @@ class MyGame(arcade.Window):
 
             if not self.pause:
                 self.set_mouse_visible(False)
+
+                # Rounds
+                if len(self.enemy_list) == 0:
+                    self.newRound = True
+                    self.round += 1
 
                 # Generate bullets
                 if self.player.shooting:
@@ -221,9 +235,10 @@ class MyGame(arcade.Window):
                     if isinstance(enemy, Enemy):
                         dead = DEnemy(enemy.left, enemy.bottom)
                         dead.angle = randrange(360)
-                        self.points = self.points + 100
+                        self.points = self.points + 100 * self.round
                         enemy.remove_from_sprite_lists()
                         self.dead_list.append(dead)
+                        self.rest -= 1
 
                 # Adjusting viewport
                 self.adjust_viewport()

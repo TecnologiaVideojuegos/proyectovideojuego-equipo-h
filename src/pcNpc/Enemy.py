@@ -1,6 +1,4 @@
 import math
-import arcade
-from random import randrange
 from src.pcNpc.LivingBeing import LivingBeing
 
 
