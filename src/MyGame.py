@@ -50,6 +50,9 @@ class MyGame(arcade.Window):
         self.button_list_3 = []
         self.buttonName = ["New Game", "Quit"]
 
+        # Points
+        self.points = 0
+
         # Pause
         self.pause_list = []
         self.pause = False
@@ -147,9 +150,9 @@ class MyGame(arcade.Window):
             # Bullets
             self.bullet_list.draw()
 
-            if self.pause:
-                left, right, bottom, top = arcade.get_viewport()
+            left, right, bottom, top = arcade.get_viewport()
 
+            if self.pause:
                 # Pause button
                 if len(self.pause_list) == 0:
                     if bottom + 800 > 7040:
@@ -161,6 +164,11 @@ class MyGame(arcade.Window):
                 for button in self.pause_list:
                     if isinstance(button, Button):
                         button.draw()
+
+            else:
+                start_x = 50 + left
+                start_y = 800 + bottom
+                arcade.draw_text("Puntuación: " + str(self.points), start_x, start_y, arcade.color.WHITE, 40)
 
         elif self.state == 2:
             pass
@@ -213,6 +221,7 @@ class MyGame(arcade.Window):
                     if isinstance(enemy, Enemy):
                         dead = DEnemy(enemy.left, enemy.bottom)
                         dead.angle = randrange(360)
+                        self.points = self.points + 100
                         enemy.remove_from_sprite_lists()
                         self.dead_list.append(dead)
 
