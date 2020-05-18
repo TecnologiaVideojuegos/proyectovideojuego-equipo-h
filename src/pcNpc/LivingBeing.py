@@ -1,6 +1,5 @@
 import math
 import arcade
-from random import randrange
 
 
 class LivingBeing(arcade.Sprite):

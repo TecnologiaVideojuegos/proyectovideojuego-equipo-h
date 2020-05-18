@@ -54,8 +54,10 @@ class MyGame(arcade.Window):
         self.points = 0
         self.round = 1
         self.newRound = True
-        self.numEnemys = 5
+        self.numEnemys = 3
+        self.numOrangeEnemys = 1
         self.rest = self.numEnemys
+        self.mode = 1
 
         # Pause
         self.pause_list = []
@@ -142,12 +144,20 @@ class MyGame(arcade.Window):
             # Create the enemies
             if self.newRound:
                 for i in range(self.numEnemys):
-                    enemy = Enemy(randrange(32, 7040), randrange(32, 7040))
+                    enemy = Enemy(randrange(64, 6976), randrange(64, 6976), "./resources/sprites/enemies/blueZombie.png")
                     self.enemy_list.append(enemy)
 
                 self.newRound = False
                 self.rest = self.numEnemys
-                self.numEnemys += 3
+                self.numEnemys += 2
+
+                if self.mode >= 2:
+                    for i in range(self.numOrangeEnemys):
+                        enemy = Enemy(randrange(64, 6976), randrange(64, 6976), "./resources/sprites/enemies/orangeZombie.png")
+                        self.enemy_list.append(enemy)
+
+                    self.rest += self.numOrangeEnemys
+                    self.numOrangeEnemys += 1
 
             # Enemies
             self.dead_list.draw()
@@ -207,6 +217,9 @@ class MyGame(arcade.Window):
                     self.newRound = True
                     self.round += 1
 
+                    if (self.round == 5):
+                        self.mode = 2
+
                 # Generate bullets
                 if self.player.shooting:
                     # If the player is trying to shoot resolve the action
@@ -233,12 +246,21 @@ class MyGame(arcade.Window):
 
                 for enemy in hit_list:
                     if isinstance(enemy, Enemy):
-                        dead = DEnemy(enemy.left, enemy.bottom)
-                        dead.angle = randrange(360)
-                        self.points = self.points + 100 * self.round
-                        enemy.remove_from_sprite_lists()
-                        self.dead_list.append(dead)
-                        self.rest -= 1
+                        if enemy.image == "./resources/sprites/enemies/blueZombie.png":
+                            dead = DEnemy(enemy.left, enemy.bottom)
+                            dead.angle = randrange(360)
+                            self.points = self.points + 100 * self.round
+                            enemy.remove_from_sprite_lists()
+                            self.dead_list.append(dead)
+                            self.rest -= 1
+
+                        elif enemy.image == "./resources/sprites/enemies/orangeZombie.png":
+                            dead = DEnemy(enemy.left, enemy.bottom, "./resources/sprites/enemies/orangeCorpse.png")
+                            dead.angle = randrange(360)
+                            self.points = self.points + 100 * self.round
+                            enemy.remove_from_sprite_lists()
+                            self.dead_list.append(dead)
+                            self.rest -= 1
 
                 # Adjusting viewport
                 self.adjust_viewport()
