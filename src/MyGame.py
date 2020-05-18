@@ -144,7 +144,7 @@ class MyGame(arcade.Window):
             # Create the enemies
             if self.newRound:
                 for i in range(self.numEnemys):
-                    enemy = Enemy(randrange(64, 6976), randrange(64, 6976), "./resources/sprites/enemies/blueZombie.png")
+                    enemy = Enemy(randrange(96, 6944), randrange(96, 6944), "./resources/sprites/enemies/blueZombie.png")
                     self.enemy_list.append(enemy)
 
                 self.newRound = False
@@ -153,7 +153,7 @@ class MyGame(arcade.Window):
 
                 if self.mode >= 2:
                     for i in range(self.numOrangeEnemys):
-                        enemy = Enemy(randrange(64, 6976), randrange(64, 6976), "./resources/sprites/enemies/orangeZombie.png")
+                        enemy = Enemy(randrange(96, 6944), randrange(96, 6944), "./resources/sprites/enemies/orangeZombie.png")
                         self.enemy_list.append(enemy)
 
                     self.rest += self.numOrangeEnemys
