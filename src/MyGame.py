@@ -2,7 +2,7 @@
 
 import arcade
 from random import randrange
-from pcNpc.DEnemy import DEnemy
+from src.pcNpc.DEnemy import DEnemy
 from src.pcNpc.Player import Player
 from src.pcNpc.Enemy import Enemy
 from src.menu.Button import Button
