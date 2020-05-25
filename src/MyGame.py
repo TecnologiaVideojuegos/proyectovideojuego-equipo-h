@@ -57,6 +57,7 @@ class MyGame(arcade.Window):
         self.numOrangeEnemys = 1
         self.rest = self.numEnemys
         self.mode = 1
+        self.deadEnemys = 0
 
         # Pause
         self.pause_list = []
@@ -197,15 +198,20 @@ class MyGame(arcade.Window):
                         button.draw()
 
             else:
-                arcade.draw_text("Puntuación: " + str(self.points), 50 + left, 800 + bottom, arcade.color.WHITE, 40)
-                arcade.draw_text("Ronda: " + str(self.round), 500 + left, 800 + bottom, arcade.color.WHITE, 40)
-                arcade.draw_text("Restantes: " + str(self.rest), 800 + left, 800 + bottom, arcade.color.WHITE, 40)
+                arcade.draw_text("Score: " + str(self.points), 50 + left, 800 + bottom, arcade.color.WHITE, 40)
+                arcade.draw_text("Round: " + str(self.round), 500 + left, 800 + bottom, arcade.color.WHITE, 40)
+                arcade.draw_text("Remaining: " + str(self.rest), 800 + left, 800 + bottom, arcade.color.WHITE, 40)
 
         elif self.state == 2:
+            left, right, bottom, top = arcade.get_viewport()
             arcade.draw_lrwh_rectangle_textured(0, 0, self.screen_width, self.screen_height, self.endBackground)
 
             for button in self.button_list_1:
                 button.draw()
+
+            arcade.draw_text("Defeated enemies: " + str(self.deadEnemys), 50 + left, 300 + bottom, arcade.color.WHITE, 40)
+            arcade.draw_text("Rounds: " + str(self.round - 1), 50 + left, 240 + bottom, arcade.color.WHITE, 40)
+            arcade.draw_text("Score: " + str(self.points), 50 + left, 180 + bottom, arcade.color.WHITE, 40)
 
         else:
             pass
@@ -269,6 +275,7 @@ class MyGame(arcade.Window):
                             enemy.remove_from_sprite_lists()
                             self.dead_list.append(dead)
                             self.rest -= 1
+                            self.deadEnemys += 1
 
                         elif enemy.image == "./resources/sprites/enemies/orangeZombie.png":
                             dead = DEnemy(enemy.left, enemy.bottom, "./resources/sprites/enemies/orangeCorpse.png")
@@ -277,6 +284,7 @@ class MyGame(arcade.Window):
                             enemy.remove_from_sprite_lists()
                             self.dead_list.append(dead)
                             self.rest -= 1
+                            self.deadEnemys += 1
 
                 # Adjusting viewport
                 self.adjust_viewport()
