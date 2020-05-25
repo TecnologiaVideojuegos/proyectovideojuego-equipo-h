@@ -7,7 +7,7 @@ from src.pcNpc.Player import Player
 from src.pcNpc.Enemy import Enemy
 from src.menu.Button import Button
 from src.mapGeneration.Room import Room
-from src.Physics import Physics
+from src.Physics import Physics, check_for_collision
 
 
 class MyGame(arcade.Window):
@@ -46,8 +46,7 @@ class MyGame(arcade.Window):
 
         # Menu Sprites
         self.button_list_0 = []
-        self.button_list_2 = []
-        self.button_list_3 = []
+        self.button_list_1 = []
         self.buttonName = ["New Game", "Quit"]
 
         # Points and rounds
@@ -77,6 +76,12 @@ class MyGame(arcade.Window):
                             self.screen_width // 8, self.screen_height // 8,
                             self.buttonName[i])
             self.button_list_0.append(button)
+
+        # Setup main end game button (state 2)
+        button = Button(self.screen_width // 2, (self.screen_height // 2) - i * 125,
+                        self.screen_width // 8, self.screen_height // 8,
+                        self.buttonName[1])
+        self.button_list_1.append(button)
 
     def reset_viewport(self):
         if self.view_left != 0 and self.view_bottom != 0:
@@ -190,7 +195,9 @@ class MyGame(arcade.Window):
                 arcade.draw_text("Restantes: " + str(self.rest), 800 + left, 800 + bottom, arcade.color.WHITE, 40)
 
         elif self.state == 2:
-            pass
+            arcade.set_background_color(arcade.color.BLACK)
+            for button in self.button_list_1:
+                button.draw()
         else:
             pass
 
@@ -265,6 +272,13 @@ class MyGame(arcade.Window):
                 # Adjusting viewport
                 self.adjust_viewport()
 
+                # End game
+                # Check damage on player
+                for enemy in self.enemy_list:
+                    enemy_attacks = check_for_collision(self.player, enemy)
+                    if enemy_attacks:
+                        self.state = 2
+
             else:
                 self.set_mouse_visible(True)
                 try:
@@ -274,7 +288,10 @@ class MyGame(arcade.Window):
                     pass
 
         elif self.state == 2:
-            pass
+            self.reset_viewport()
+            self.set_mouse_visible(True)
+            if self.button_list_1[0].pressed:
+                arcade.close_window()
         else:
             pass
 
@@ -337,7 +354,9 @@ class MyGame(arcade.Window):
                     button2.check_mouse_press(x + left, y + bottom)
 
         elif self.state == 2:
-            pass
+            for button in self.button_list_1:
+                assert (isinstance(button, arcade.gui.TextButton))
+                button.check_mouse_press(x, y)
         elif self.state == 3:
             pass
 
@@ -356,6 +375,8 @@ class MyGame(arcade.Window):
                     button2.check_mouse_release(x + left, y + bottom)
 
         elif self.state == 2:
-            pass
+            for button in self.button_list_1:
+                assert (isinstance(button, arcade.gui.TextButton))
+                button.check_mouse_release(x, y)
         elif self.state == 3:
             pass

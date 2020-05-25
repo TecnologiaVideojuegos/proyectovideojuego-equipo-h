@@ -164,12 +164,11 @@ class Physics:
                 bullet.remove_from_sprite_lists()
 
         # Check damage on player
-        enemy_attacks = check_for_collision_with_list(self.player, self.enemies)
-        if len(enemy_attacks) > 0:
-            self.player.damage(1)
-            for enemy__ in enemy_attacks:
-                if isinstance(enemy__, Enemy):
-                    enemy__.center_x -= enemy__.change_x * delta_time
-                    enemy__.center_y -= enemy__.change_y * delta_time
+        # enemy_attacks = check_for_collision_with_list(self.player, self.enemies)
+        # if len(enemy_attacks) > 0:
+            #     self.player.damage(1)
+                #     for enemy__ in enemy_attacks:
+                #         if isinstance(enemy__, Enemy):
+        #             self.state = 2
 
         return complete_hit_list
