@@ -6,7 +6,7 @@ from src.pcNpc.Enemy import Enemy
 
 
 class Physics:
-    def __init__(self, player: Sprite, enemies: SpriteList, bullets: SpriteList, walls: SpriteList):
+    def __init__(self, player: Player, enemies: SpriteList, bullets: SpriteList, walls: SpriteList):
         """
         Create a physics engine with a shooting player and some enemies.
 
@@ -78,8 +78,7 @@ class Physics:
 
         Although this procedure rotates all enemies towards the player, it doesn't handle the player rotation.
 
-        :returns: SpriteList with all enemies contacted by bullets. Empty list if no sprites. The first Sprite will be
-        the player in case it is contacted by an enemy.
+        :returns: SpriteList with all enemies killed by bullets. Empty list if no sprites.
         """
 
         complete_hit_list = []
@@ -143,6 +142,11 @@ class Physics:
             # --- Move in the y direction
             bullet.center_y += bullet.change_y * delta_time
 
+            # Ensure the bullet doesn't move further than it's maximum travel distance
+            bullet.travel_distance -= bullet.speed * delta_time
+            if bullet.travel_distance <= 0:
+                bullet.remove_from_sprite_lists()
+
             # Check enemies hit
             hit_list = check_for_collision_with_list(bullet, self.enemies)
             for enemy_ in hit_list:
@@ -160,7 +164,12 @@ class Physics:
                 bullet.remove_from_sprite_lists()
 
         # Check damage on player
-        if len(check_for_collision_with_list(self.player, self.enemies)) > 0:
-            complete_hit_list.append(self.player)
+        enemy_attacks = check_for_collision_with_list(self.player, self.enemies)
+        if len(enemy_attacks) > 0:
+            self.player.damage(1)
+            for enemy__ in enemy_attacks:
+                if isinstance(enemy__, Enemy):
+                    enemy__.center_x -= enemy__.change_x * delta_time
+                    enemy__.center_y -= enemy__.change_y * delta_time
 
         return complete_hit_list

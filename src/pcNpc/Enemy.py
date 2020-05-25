@@ -1,16 +1,12 @@
 import math
-import arcade
-from random import randrange
 from src.pcNpc.LivingBeing import LivingBeing
 
 
 class Enemy(LivingBeing):
-    # Cambiar medidas de la ventana por las de la Habitacion
-    def __init__(self, position_x: int, position_y: int):
-        super().__init__(position_x, position_y, "./resources/sprites/enemies/blueZombie.png", 1)
-        self.center_x = position_x
-        self.center_y = position_y
-
+    def __init__(self, position_x: int, position_y: int, image: str = "./resources/sprites/enemies/blueZombie.png", health: int = 1):
+        super().__init__(position_x, position_y, image, 1)
+        self.health = health
+        self.image = image
 
     def go_to(self, x, y):
         dx = self.center_x - x
@@ -18,8 +14,14 @@ class Enemy(LivingBeing):
         d = math.sqrt(dx ** 2 + dy ** 2)
         if d == 0:
             d = 0.0001
-        self.change_x = -self.speed / d * dx
-        self.change_y = -self.speed / d * dy
+
+        if self.image == "./resources/sprites/enemies/blueZombie.png":
+            self.change_x = -self.speed / d * dx
+            self.change_y = -self.speed / d * dy
+
+        elif self.image == "./resources/sprites/enemies/orangeZombie.png":
+            self.change_x = -self.speed * 1.5 / d * dx
+            self.change_y = -self.speed * 1.2 / d * dy
 
     def draw_debug(self):
         self.draw()

@@ -1,8 +1,8 @@
 """ The darkness within """
 
 import arcade
-import math
 from random import randrange
+from src.pcNpc.DEnemy import DEnemy
 from src.pcNpc.Player import Player
 from src.pcNpc.Enemy import Enemy
 from src.menu.Button import Button
@@ -32,11 +32,16 @@ class MyGame(arcade.Window):
         # Physics
         self.physics = None
 
+        # Music
+        self.song = arcade.Sound("./resources/music/punish_them.wav")
+        self.song_length = 0
+
         # Every Sprite, SpriteList or SpriteList container is declared here
         # In game sprites
         self.map = Room(0, 0)
         self.player = Player(self.screen_width // 2, self.screen_height // 2)
         self.enemy_list = arcade.SpriteList()
+        self.dead_list = arcade.SpriteList()
         self.bullet_list = arcade.SpriteList()
 
         # Menu Sprites
@@ -45,6 +50,15 @@ class MyGame(arcade.Window):
         self.button_list_3 = []
         self.buttonName = ["New Game", "Quit"]
 
+        # Points and rounds
+        self.points = 0
+        self.round = 1
+        self.newRound = True
+        self.numEnemys = 3
+        self.numOrangeEnemys = 1
+        self.rest = self.numEnemys
+        self.mode = 1
+
         # Pause
         self.pause_list = []
         self.pause = False
@@ -52,23 +66,17 @@ class MyGame(arcade.Window):
     def setup(self):
         """Sets up the game to be run"""
 
-        # Create the enemies
-        for i in range(2):
-            enemy = Enemy(randrange(32, 7040), randrange(32, 7040))
-            self.enemy_list.append(enemy)
-
         # Setup the map
         self.map.setup_room()
         self.physics = Physics(self.player, self.enemy_list, self.bullet_list, self.map.wall_list)
 
         # Setup the buttons
         # Setup main menu buttons (state 0)
-        for i in range (2):
+        for i in range(2):
             button = Button(self.screen_width // 2, (self.screen_height // 2) - i * 125,
                             self.screen_width // 8, self.screen_height // 8,
                             self.buttonName[i])
             self.button_list_0.append(button)
-
 
     def reset_viewport(self):
         if self.view_left != 0 and self.view_bottom != 0:
@@ -133,31 +141,53 @@ class MyGame(arcade.Window):
             # Map
             self.map.draw()
 
+            # Create the enemies
+            if self.newRound:
+                for i in range(self.numEnemys):
+                    enemy = Enemy(randrange(96, 6944), randrange(96, 6944), "./resources/sprites/enemies/blueZombie.png")
+                    self.enemy_list.append(enemy)
+
+                self.newRound = False
+                self.rest = self.numEnemys
+                self.numEnemys += 2
+
+                if self.mode >= 2:
+                    for i in range(self.numOrangeEnemys):
+                        enemy = Enemy(randrange(96, 6944), randrange(96, 6944), "./resources/sprites/enemies/orangeZombie.png")
+                        self.enemy_list.append(enemy)
+
+                    self.rest += self.numOrangeEnemys
+                    self.numOrangeEnemys += 1
+
+            # Enemies
+            self.dead_list.draw()
+            self.enemy_list.draw()
+
             # Player
             self.player.draw()
 
-            # Enemies
-            self.enemy_list.draw()
-
             # Bullets
             self.bullet_list.draw()
-            print(elem for elem in self.bullet_list)
 
-            if (self.pause == True):
-                    left, right, bottom, top = arcade.get_viewport()
+            left, right, bottom, top = arcade.get_viewport()
 
-                    # Pause button
+            if self.pause:
+                # Pause button
+                if len(self.pause_list) == 0:
                     if bottom + 800 > 7040:
                         bottom = 6340
+                    pause_button = Button(100 + left, 800 + bottom, self.screen_width // 8, self.screen_height // 8,
+                                          "Exit game")
+                    self.pause_list.append(pause_button)
 
-                    pauseButton = Button(100 + left, 800 + bottom,
-                                              self.screen_width // 8, self.screen_height // 8,
-                                              "Exit game")
-                    if (len(self.pause_list) == 0):
-                        self.pause_list.append(pauseButton)
+                for button in self.pause_list:
+                    if isinstance(button, Button):
+                        button.draw()
 
-                    pauseButton.draw()
-
+            else:
+                arcade.draw_text("Puntuación: " + str(self.points), 50 + left, 800 + bottom, arcade.color.WHITE, 40)
+                arcade.draw_text("Ronda: " + str(self.round), 500 + left, 800 + bottom, arcade.color.WHITE, 40)
+                arcade.draw_text("Restantes: " + str(self.rest), 800 + left, 800 + bottom, arcade.color.WHITE, 40)
 
         elif self.state == 2:
             pass
@@ -179,19 +209,26 @@ class MyGame(arcade.Window):
 
         elif self.state == 1:
 
-            if (self.pause == False):
+            if not self.pause:
                 self.set_mouse_visible(False)
+
+                # Rounds
+                if len(self.enemy_list) == 0:
+                    self.newRound = True
+                    self.round += 1
+
+                    if (self.round == 5):
+                        self.mode = 2
 
                 # Generate bullets
                 if self.player.shooting:
                     # If the player is trying to shoot resolve the action
                     new_bullet_list = self.player.shoot(delta_time, reloading=False)
                     self.physics.append_bullet(new_bullet_list)
-                    # for bullet in new_bullet_list:
-                    #     self.bullet_list.append(bullet)
                 else:
                     # If the player ain't shooting reload the weapon
                     self.player.shoot(delta_time, reloading=True)
+
                 # Update enemy speed
                 for enemy in self.enemy_list:
                     assert (isinstance(enemy, Enemy))
@@ -202,10 +239,28 @@ class MyGame(arcade.Window):
                 self.player.speed_up()
 
                 # Update bullseye position
-                self.player.bullseye_pos(self.view_bottom, self.view_left)
+                self.player.bullseye_pos(self.view_left, self.view_bottom)
 
                 # Move everything and resolve collisions
                 hit_list = self.physics.update(delta_time)
+
+                for enemy in hit_list:
+                    if isinstance(enemy, Enemy):
+                        if enemy.image == "./resources/sprites/enemies/blueZombie.png":
+                            dead = DEnemy(enemy.left, enemy.bottom)
+                            dead.angle = randrange(360)
+                            self.points = self.points + 100 * self.round
+                            enemy.remove_from_sprite_lists()
+                            self.dead_list.append(dead)
+                            self.rest -= 1
+
+                        elif enemy.image == "./resources/sprites/enemies/orangeZombie.png":
+                            dead = DEnemy(enemy.left, enemy.bottom, "./resources/sprites/enemies/orangeCorpse.png")
+                            dead.angle = randrange(360)
+                            self.points = self.points + 100 * self.round
+                            enemy.remove_from_sprite_lists()
+                            self.dead_list.append(dead)
+                            self.rest -= 1
 
                 # Adjusting viewport
                 self.adjust_viewport()
@@ -228,7 +283,7 @@ class MyGame(arcade.Window):
             pass
         elif self.state == 1:
             if symbol == arcade.key.ESCAPE:
-                if (self.pause == True):
+                if self.pause:
                     self.pause_list.clear()
                     self.pause = False
                 else:
@@ -277,8 +332,9 @@ class MyGame(arcade.Window):
                 self.player.shooting = True
 
             for button2 in self.pause_list:
-                assert (isinstance(button2, arcade.gui.TextButton))
-                button2.check_mouse_press(x, y)
+                if isinstance(button2, Button):
+                    left, right, bottom, top = arcade.get_viewport()
+                    button2.check_mouse_press(x + left, y + bottom)
 
         elif self.state == 2:
             pass
@@ -295,8 +351,9 @@ class MyGame(arcade.Window):
                 self.player.shooting = False
 
             for button2 in self.pause_list:
-                assert (isinstance(button2, arcade.gui.TextButton))
-                button2.check_mouse_release(x, y)
+                if isinstance(button2, Button):
+                    left, right, bottom, top = arcade.get_viewport()
+                    button2.check_mouse_release(x + left, y + bottom)
 
         elif self.state == 2:
             pass

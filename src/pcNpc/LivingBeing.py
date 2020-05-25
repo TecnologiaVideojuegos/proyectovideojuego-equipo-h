@@ -1,6 +1,5 @@
 import math
 import arcade
-from random import randrange
 
 
 class LivingBeing(arcade.Sprite):
@@ -13,7 +12,7 @@ class LivingBeing(arcade.Sprite):
         self.change_x = 0
         self.change_y = 0
         self.radians = 0
-        self.speed = 300
+        self.speed = 400
 
     def upd_orientation(self, x, y):
         x_ = x - self.center_x
