@@ -21,7 +21,7 @@ class MyGame(arcade.Window):
         self.set_fullscreen()
         self.screen_width, self.screen_height = self.get_size()
         self.set_update_rate(1 / 60)
-        self.state = 0  # 0 - Main menu , 1 - Game , 2 - High Scores , 3 - Game over ...
+        self.state = 0  # 0 - Main menu , 1 - Game , 2 - Game over
 
         # Viewport
         self.view_bottom = 0
@@ -62,12 +62,18 @@ class MyGame(arcade.Window):
         self.pause_list = []
         self.pause = False
 
+        # Wallpapper
+        self.endBackground = None
+
     def setup(self):
         """Sets up the game to be run"""
 
         # Setup the map
         self.map.setup_room()
         self.physics = Physics(self.player, self.enemy_list, self.bullet_list, self.map.wall_list)
+
+        # Wallpaper
+        self.endBackground = arcade.load_texture("./resources/wallpaper/gameOver.png")
 
         # Setup the buttons
         # Setup main menu buttons (state 0)
@@ -78,7 +84,7 @@ class MyGame(arcade.Window):
             self.button_list_0.append(button)
 
         # Setup main end game button (state 2)
-        button = Button(self.screen_width // 2, (self.screen_height // 2) - i * 125,
+        button = Button(3 * self.screen_width // 4, (self.screen_height // 3) - i * 125,
                         self.screen_width // 8, self.screen_height // 8,
                         self.buttonName[1])
         self.button_list_1.append(button)
@@ -158,7 +164,8 @@ class MyGame(arcade.Window):
 
                 if self.mode >= 2:
                     for i in range(self.numOrangeEnemys):
-                        enemy = Enemy(randrange(96, 6944), randrange(96, 6944), "./resources/sprites/enemies/orangeZombie.png")
+                        enemy = Enemy(randrange(96, 6944), randrange(96, 6944),
+                                      "./resources/sprites/enemies/orangeZombie.png")
                         self.enemy_list.append(enemy)
 
                     self.rest += self.numOrangeEnemys
@@ -195,9 +202,11 @@ class MyGame(arcade.Window):
                 arcade.draw_text("Restantes: " + str(self.rest), 800 + left, 800 + bottom, arcade.color.WHITE, 40)
 
         elif self.state == 2:
-            arcade.set_background_color(arcade.color.BLACK)
+            arcade.draw_lrwh_rectangle_textured(0, 0, self.screen_width, self.screen_height, self.endBackground)
+
             for button in self.button_list_1:
                 button.draw()
+
         else:
             pass
 
@@ -292,6 +301,7 @@ class MyGame(arcade.Window):
             self.set_mouse_visible(True)
             if self.button_list_1[0].pressed:
                 arcade.close_window()
+
         else:
             pass
 
