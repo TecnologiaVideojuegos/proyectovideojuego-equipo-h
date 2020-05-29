@@ -70,6 +70,7 @@ class MyGame(arcade.Window):
         """Sets up the game to be run"""
 
         # Setup the map
+        arcade.Sound.play(self.song, 0.05)
         self.map.setup_room()
         self.physics = Physics(self.player, self.enemy_list, self.bullet_list, self.map.wall_list)
 
