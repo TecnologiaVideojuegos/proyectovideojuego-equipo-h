@@ -9,11 +9,14 @@ class Enemy(LivingBeing):
         if type_ == 0:  # Blue enemy
             super().__init__(position_x, position_y, "./resources/sprites/enemies/blueZombie.png", 1)
             self.speed = 400
-            self.append_texture(arcade.Texture("./resources/sprites/enemies/blueCorpse.png"))
+            self.health = 3
+            self.append_texture("./resources/sprites/enemies/blueCorpse.png")
+
         elif type_ == 1:  # Orange enemy
-            super().__init__(position_x, position_y, "./resources/sprites/enemies/orangeZombie.png", 2)
+            super().__init__(position_x, position_y, "./resources/sprites/enemies/orangeZombie.png", 1)
             self.speed = 500
-            self.append_texture(arcade.Texture("./resources/sprites/enemies/orangeCorpse.png"))
+            self.health = 10
+            self.append_texture("./resources/sprites/enemies/orangeCorpse.png")
 
     def go_to(self, x, y):
         dx = self.center_x - x
@@ -22,11 +25,11 @@ class Enemy(LivingBeing):
         if d == 0:
             d = 0.0001
 
-        if self.image == "./resources/sprites/enemies/blueZombie.png":
+        if self.type == 0:
             self.change_x = -self.speed / d * dx
             self.change_y = -self.speed / d * dy
 
-        elif self.image == "./resources/sprites/enemies/orangeZombie.png":
+        elif self.type == 1:
             self.change_x = -self.speed * 1.5 / d * dx
             self.change_y = -self.speed * 1.2 / d * dy
 
@@ -38,5 +41,6 @@ class Enemy(LivingBeing):
         if self.alive:
             self.health -= damage
             if self.health <= 0:
+                self.set_texture(0)
                 self.alive = False
-                self.set_texture(1)
+

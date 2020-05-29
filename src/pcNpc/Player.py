@@ -25,7 +25,7 @@ class Player(LivingBeing):
 
         # Weapon
         self.weapon = "shotgun"
-        self.shooting = False
+        # self.shooting = False
         self.shotgun_sound = arcade.Sound("./resources/sounds/shotgun.wav")
         self.machinegun_sound = arcade.Sound("./resources/sounds/machinegun.wav")
         self.shoot_count = 0
@@ -100,7 +100,7 @@ class Player(LivingBeing):
                     bullet = Bullet(self.center_x, self.center_y, 2000, 600, 3, angle)  # speed, max_distance, damage
                     bullet_list.append(bullet)
                 arcade.play_sound(self.shotgun_sound)
-                self.shooting = False
+                # self.shooting = False
 
         elif self.weapon == "machinegun":
             if self.shoot_count > 0:

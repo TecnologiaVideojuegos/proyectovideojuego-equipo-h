@@ -157,7 +157,7 @@ class MyGame(arcade.Window):
             # Create the enemies
             if self.newRound:
                 for i in range(self.numEnemys):
-                    enemy = Enemy(randrange(96, 6944), randrange(96, 6944), "./resources/sprites/enemies/blueZombie.png")
+                    enemy = Enemy(randrange(96, 6944), randrange(96, 6944), 0)
                     self.enemy_list.append(enemy)
 
                 self.newRound = False
@@ -166,8 +166,7 @@ class MyGame(arcade.Window):
 
                 if self.mode >= 2:
                     for i in range(self.numOrangeEnemys):
-                        enemy = Enemy(randrange(96, 6944), randrange(96, 6944),
-                                      "./resources/sprites/enemies/orangeZombie.png")
+                        enemy = Enemy(randrange(96, 6944), randrange(96, 6944), 1)
                         self.enemy_list.append(enemy)
 
                     self.rest += self.numOrangeEnemys
@@ -269,23 +268,12 @@ class MyGame(arcade.Window):
 
                 for enemy in hit_list:
                     if isinstance(enemy, Enemy):
-                        if enemy.image == "./resources/sprites/enemies/blueZombie.png":
-                            dead = DEnemy(enemy.left, enemy.bottom)
-                            dead.angle = randrange(360)
-                            self.points = self.points + 100 * self.round
-                            enemy.remove_from_sprite_lists()
-                            self.dead_list.append(dead)
-                            self.rest -= 1
-                            self.deadEnemys += 1
-
-                        elif enemy.image == "./resources/sprites/enemies/orangeZombie.png":
-                            dead = DEnemy(enemy.left, enemy.bottom, "./resources/sprites/enemies/orangeCorpse.png")
-                            dead.angle = randrange(360)
-                            self.points = self.points + 100 * self.round
-                            enemy.remove_from_sprite_lists()
-                            self.dead_list.append(dead)
-                            self.rest -= 1
-                            self.deadEnemys += 1
+                        enemy.angle = randrange(360)
+                        self.points = self.points + 100 * self.round
+                        enemy.remove_from_sprite_lists()
+                        self.dead_list.append(enemy)
+                        self.rest -= 1
+                        self.deadEnemys += 1
 
                 # Adjusting viewport
                 self.adjust_viewport()
