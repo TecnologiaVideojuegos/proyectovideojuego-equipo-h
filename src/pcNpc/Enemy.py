@@ -3,10 +3,14 @@ from src.pcNpc.LivingBeing import LivingBeing
 
 
 class Enemy(LivingBeing):
-    def __init__(self, position_x: int, position_y: int, image: str = "./resources/sprites/enemies/blueZombie.png", health: int = 1):
-        super().__init__(position_x, position_y, image, 1)
-        self.health = health
-        self.image = image
+    def __init__(self, position_x: int, position_y: int, type_: int):
+        self.type = type_
+        if type_ == 0:  # Blue enemy
+            super().__init__(position_x, position_y, "./resources/sprites/enemies/blueZombie.png", 1)
+            self.speed = 400
+        elif type_ == 1:  # Orange enemy
+            super().__init__(position_x, position_y, "./resources/sprites/enemies/orangeZombie.png", 2)
+            self.speed = 500
 
     def go_to(self, x, y):
         dx = self.center_x - x
