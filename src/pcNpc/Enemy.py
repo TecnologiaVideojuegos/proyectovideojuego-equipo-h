@@ -1,4 +1,5 @@
 import math
+import arcade
 from src.pcNpc.LivingBeing import LivingBeing
 
 
@@ -8,9 +9,11 @@ class Enemy(LivingBeing):
         if type_ == 0:  # Blue enemy
             super().__init__(position_x, position_y, "./resources/sprites/enemies/blueZombie.png", 1)
             self.speed = 400
+            self.append_texture(arcade.Texture("./resources/sprites/enemies/blueCorpse.png"))
         elif type_ == 1:  # Orange enemy
             super().__init__(position_x, position_y, "./resources/sprites/enemies/orangeZombie.png", 2)
             self.speed = 500
+            self.append_texture(arcade.Texture("./resources/sprites/enemies/orangeCorpse.png"))
 
     def go_to(self, x, y):
         dx = self.center_x - x
@@ -30,3 +33,10 @@ class Enemy(LivingBeing):
     def draw_debug(self):
         self.draw()
         self.draw_hit_box()
+
+    def damage(self, damage):
+        if self.alive:
+            self.health -= damage
+            if self.health <= 0:
+                self.alive = False
+                self.set_texture(1)
