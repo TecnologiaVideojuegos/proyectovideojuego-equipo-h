@@ -152,6 +152,7 @@ class Physics:
             for enemy_ in hit_list:
                 assert(isinstance(enemy_, LivingBeing))
                 enemy_.damage(bullet.damage)
+                bullet.remove_from_sprite_lists()
                 if enemy_ not in complete_hit_list and not enemy_.alive:
                     enemy_.remove_from_sprite_lists()
                     complete_hit_list.append(enemy_)
