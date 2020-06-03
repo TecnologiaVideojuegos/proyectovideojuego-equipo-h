@@ -118,7 +118,7 @@ class Player(LivingBeing):
                     bullet = Bullet(self.center_x, self.center_y, 2000, 1500, 1, angle)  # speed, max_distance, damage
                     bullet_list.append(bullet)
                 arcade.play_sound(self.machinegun_sound)
-                self.shooting = False
+                # self.shooting = False
 
         else:
             pass
