@@ -310,6 +310,12 @@ class MyGame(arcade.Window):
         if self.state == 0:
             pass
         elif self.state == 1:
+            if symbol == arcade.key.KEY_1:
+                self.player.texture = arcade.load_texture(self.player.textures[0])
+
+            if symbol == arcade.key.KEY_2:
+                self.player.texture = arcade.load_texture(self.player.textures[1])
+
             if symbol == arcade.key.ESCAPE:
                 if self.pause:
                     self.pause_list.clear()

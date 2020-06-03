@@ -1,12 +1,10 @@
 import math
-import arcade
 from src.pcNpc.LivingBeing import LivingBeing
 
 
 class Enemy(LivingBeing):
     def __init__(self, position_x: int, position_y: int, type_: int):
         self.type = type_
-        self.textures = []
 
         if type_ == 0:  # Blue enemy
             super().__init__(position_x, position_y, "./resources/sprites/enemies/blueZombie.png", 1)

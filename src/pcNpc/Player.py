@@ -17,11 +17,16 @@ class Player(LivingBeing):
 
         super().__init__(position_x, position_y, "./resources/sprites/player/shotgun.png", 1)
 
+        # Weapons
+        self.textures = []
+        self.textures.append("./resources/sprites/player/shotgun.png")
+        self.textures.append("./resources/sprites/player/machinegun.png")
+
         # Health
         self.health = 10
 
         # Skins
-        self.append_texture(arcade.Texture("./resources/sprites/player/machinegun.png"))
+        # self.append_texture(arcade.Texture("./resources/sprites/player/machinegun.png"))
 
         # Weapon
         self.weapon = "shotgun"
