@@ -6,17 +6,17 @@ from src.pcNpc.LivingBeing import LivingBeing
 class Enemy(LivingBeing):
     def __init__(self, position_x: int, position_y: int, type_: int):
         self.type = type_
+        self.textures = []
+
         if type_ == 0:  # Blue enemy
             super().__init__(position_x, position_y, "./resources/sprites/enemies/blueZombie.png", 1)
             self.speed = 400
             self.health = 3
-            self.append_texture("./resources/sprites/enemies/blueCorpse.png")
 
         elif type_ == 1:  # Orange enemy
             super().__init__(position_x, position_y, "./resources/sprites/enemies/orangeZombie.png", 1)
-            self.speed = 500
+            self.speed = 415
             self.health = 10
-            self.append_texture("./resources/sprites/enemies/orangeCorpse.png")
 
     def go_to(self, x, y):
         dx = self.center_x - x
@@ -41,6 +41,5 @@ class Enemy(LivingBeing):
         if self.alive:
             self.health -= damage
             if self.health <= 0:
-                self.set_texture(0)
                 self.alive = False
 

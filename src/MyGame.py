@@ -2,7 +2,6 @@
 
 import arcade
 from random import randrange
-from src.pcNpc.DEnemy import DEnemy
 from src.pcNpc.Player import Player
 from src.pcNpc.Enemy import Enemy
 from src.menu.Button import Button
@@ -268,6 +267,11 @@ class MyGame(arcade.Window):
 
                 for enemy in hit_list:
                     if isinstance(enemy, Enemy):
+                        if enemy.type == 0:
+                            enemy.texture = arcade.load_texture("./resources/sprites/enemies/blueCorpse.png")
+                        elif enemy.type == 1:
+                            enemy.texture = arcade.load_texture("./resources/sprites/enemies/orangeCorpse.png")
+
                         enemy.angle = randrange(360)
                         self.points = self.points + 100 * self.round
                         enemy.remove_from_sprite_lists()
