@@ -25,7 +25,7 @@ class Player(LivingBeing):
         :param position_y: The initial y position of the player.
         """
 
-        super().__init__(position_x, position_y, "./resources/sprites/player/shotgun.png", 1)
+        super().__init__(position_x, position_y, "./resources/sprites/player/Shotgun.png", 1)
 
         # Used for flipping between image sequences
         self.cur_texture = 0
@@ -33,17 +33,8 @@ class Player(LivingBeing):
         self.character_face_direction = 0
 
         # Weapon
-        self.weapon = "shotgun"
-        main_path = f"./resources/sprites/player/"
-
-        # Load textures for idle standing
-        self.idle_texture_pair = load_texture_pair(f"{main_path}{self.weapon}.png")
-
-        # Load textures for walking
-        self.walk_textures = []
-        for i in range(1, 6):
-            texture = load_texture_pair(f"{main_path}{self.weapon}_animation_fix/anim_{self.weapon}{i}_fix.png")
-            self.walk_textures.append(texture)
+        self.weapon = "Machinegun"
+        Player.change_animation(self)
 
         # Weapons
         self.textures = []
@@ -55,7 +46,6 @@ class Player(LivingBeing):
 
         # Skins
         # self.append_texture(arcade.Texture("./resources/sprites/player/machinegun.png"))
-
 
         # self.shooting = False
         self.shotgun_sound = arcade.Sound("./resources/sounds/shotgun.wav")
@@ -84,6 +74,16 @@ class Player(LivingBeing):
             self.cur_texture = 0
 
         self.texture = self.walk_textures[self.cur_texture // self.UPDATES_PER_FRAME][self.character_face_direction]
+
+    def change_animation(self):
+        main_path = f"./resources/sprites/player/"
+        # Load textures for idle standing
+        self.idle_texture_pair = load_texture_pair(f"{main_path}{self.weapon}.png")
+        # Load textures for walking
+        self.walk_textures = []
+        for i in range(1, 6):
+            texture = load_texture_pair(f"{main_path}{self.weapon}AnimationFix/Anim{self.weapon}{i}Fix.png")
+            self.walk_textures.append(texture)
 
 
     def upd_orientation(self, x=None, y=None):
@@ -136,7 +136,7 @@ class Player(LivingBeing):
         """
         bullet_list = []
 
-        if self.weapon == "shotgun":
+        if self.weapon == "Shotgun":
             if self.shoot_count > 0:
                 self.shoot_count -= 1 * delta_time
             elif self.shoot_count <= 0 and not reloading:
@@ -149,7 +149,7 @@ class Player(LivingBeing):
                 arcade.play_sound(self.shotgun_sound)
                 # self.shooting = False
 
-        elif self.weapon == "machinegun":
+        elif self.weapon == "Machinegun":
             if self.shoot_count > 0:
                 self.shoot_count -= 1 * delta_time
             elif self.shoot_count <= 0 and not reloading:
@@ -161,6 +161,20 @@ class Player(LivingBeing):
                     bullet_list.append(bullet)
                 arcade.play_sound(self.machinegun_sound)
                 # self.shooting = False
+
+        elif self.weapon == "Akimbo":
+            if self.shoot_count > 0:
+                self.shoot_count -= 1 * delta_time
+            elif self.shoot_count <= 0 and not reloading:
+                self.shoot_count = 0.4  # time between shots
+                for i in range(2):  # amount of simultaneous bullets
+                    rnd_angle = math.pi / 225 * randrange(25)  # random "angle" (0º to 10º)
+                    angle = self.radians - math.pi / 12 + rnd_angle  # random angle is added (-5º + (0º->10º))
+                    bullet = Bullet(self.center_x, self.center_y, 2000, 1500, 1, angle)  # speed, max_distance, damage
+                    bullet_list.append(bullet)
+                arcade.play_sound(self.machinegun_sound)
+
+
 
         else:
             pass
