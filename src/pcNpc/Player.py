@@ -5,6 +5,16 @@ from src.pcNpc.Bullet import Bullet
 from src.pcNpc.LivingBeing import LivingBeing
 
 
+def load_texture_pair(filename):
+    """
+    Load a texture pair, with the second being a mirror image.
+    """
+    return [
+        arcade.load_texture(filename),
+        arcade.load_texture(filename)
+    ]
+
+
 class Player(LivingBeing):
     def __init__(self, position_x: int, position_y: int):
         """
@@ -17,6 +27,24 @@ class Player(LivingBeing):
 
         super().__init__(position_x, position_y, "./resources/sprites/player/shotgun.png", 1)
 
+        # Used for flipping between image sequences
+        self.cur_texture = 0
+        self.UPDATES_PER_FRAME = 4
+        self.character_face_direction = 0
+
+        # Weapon
+        self.weapon = "shotgun"
+        main_path = f"./resources/sprites/player/"
+
+        # Load textures for idle standing
+        self.idle_texture_pair = load_texture_pair(f"{main_path}{self.weapon}.png")
+
+        # Load textures for walking
+        self.walk_textures = []
+        for i in range(1, 6):
+            texture = load_texture_pair(f"{main_path}{self.weapon}_animation_fix/anim_{self.weapon}{i}_fix.png")
+            self.walk_textures.append(texture)
+
         # Weapons
         self.textures = []
         self.textures.append("./resources/sprites/player/shotgun.png")
@@ -28,8 +56,7 @@ class Player(LivingBeing):
         # Skins
         # self.append_texture(arcade.Texture("./resources/sprites/player/machinegun.png"))
 
-        # Weapon
-        self.weapon = "shotgun"
+
         # self.shooting = False
         self.shotgun_sound = arcade.Sound("./resources/sounds/shotgun.wav")
         self.machinegun_sound = arcade.Sound("./resources/sounds/machinegun.wav")
@@ -43,6 +70,21 @@ class Player(LivingBeing):
         # Bullseye
         self.bullseye = arcade.Sprite("./resources/sprites/player/bullseye.png", 0.75)
         self.mouse_position = [0, 0]
+
+    def update_animation(self, delta_time: float = 1 / 60):
+        # Idle animation
+        if self.change_x == 0 and self.change_y == 0:
+            self.texture = self.idle_texture_pair[self.character_face_direction]
+            return
+
+        # Walking animation
+        self.cur_texture += 1
+        print(self.cur_texture)
+        if self.cur_texture > 4 * self.UPDATES_PER_FRAME:
+            self.cur_texture = 0
+
+        self.texture = self.walk_textures[self.cur_texture // self.UPDATES_PER_FRAME][self.character_face_direction]
+
 
     def upd_orientation(self, x=None, y=None):
         x_ = self.bullseye.center_x - self.center_x
