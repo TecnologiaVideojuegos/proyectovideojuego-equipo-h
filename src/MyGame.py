@@ -256,8 +256,10 @@ class MyGame(arcade.Window):
                     enemy.go_to(self.player.center_x, self.player.center_y)
 
                 # Update player speed and orientation
+                self.player.update_animation()
                 self.player.upd_orientation()
                 self.player.speed_up()
+
 
                 # Update bullseye position
                 self.player.bullseye_pos(self.view_left, self.view_bottom)
