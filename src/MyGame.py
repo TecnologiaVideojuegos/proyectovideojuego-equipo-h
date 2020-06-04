@@ -314,11 +314,18 @@ class MyGame(arcade.Window):
         elif self.state == 1:
             if symbol == arcade.key.KEY_1:
                 self.player.texture = arcade.load_texture(self.player.textures[0])
-                self.player.weapon = "shotgun"
+                self.player.weapon = "Shotgun"
+                self.player.change_animation()
 
             if symbol == arcade.key.KEY_2:
                 self.player.texture = arcade.load_texture(self.player.textures[1])
-                self.player.weapon = "machinegun"
+                self.player.weapon = "Machinegun"
+                self.player.change_animation()
+
+            if symbol == arcade.key.KEY_3:
+                self.player.texture = arcade.load_texture(self.player.textures[1])
+                self.player.weapon = "Akimbo"
+                self.player.change_animation()
 
             if symbol == arcade.key.ESCAPE:
                 if self.pause:
