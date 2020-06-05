@@ -13,7 +13,7 @@ class Enemy(LivingBeing):
 
         elif type_ == 1:  # Orange enemy
             super().__init__(position_x, position_y, "./resources/sprites/enemies/orangeZombie.png", 1)
-            self.speed = 415
+            self.speed = 405
             self.health = 10
 
     def go_to(self, x, y):

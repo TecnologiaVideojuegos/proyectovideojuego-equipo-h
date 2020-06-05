@@ -33,7 +33,7 @@ class Player(LivingBeing):
         self.character_face_direction = 0
 
         # Weapon
-        self.weapon = "Machinegun"
+        self.weapon = "Shotgun"
         Player.change_animation(self)
 
         # Weapons
@@ -48,6 +48,8 @@ class Player(LivingBeing):
         # self.append_texture(arcade.Texture("./resources/sprites/player/machinegun.png"))
 
         # self.shooting = False
+
+        # Sounds
         self.shotgun_sound = arcade.Sound("./resources/sounds/shotgun.wav")
         self.machinegun_sound = arcade.Sound("./resources/sounds/machinegun.wav")
         self.shoot_count = 0
@@ -146,7 +148,7 @@ class Player(LivingBeing):
                     angle = self.radians - math.pi / 12 + rnd_angle  # random angle is added (-15º + (0º->30º))
                     bullet = Bullet(self.center_x, self.center_y, 2000, 600, 3, angle)  # speed, max_distance, damage
                     bullet_list.append(bullet)
-                arcade.play_sound(self.shotgun_sound)
+                arcade.Sound.play(self.shotgun_sound, 0.2)
                 # self.shooting = False
 
         elif self.weapon == "Machinegun":
@@ -156,10 +158,10 @@ class Player(LivingBeing):
                 self.shoot_count = 0.05  # time between shots
                 for i in range(1):  # amount of simultaneous bullets
                     rnd_angle = math.pi / 225 * randrange(25)  # random "angle" (0º to 10º)
-                    angle = self.radians - math.pi / 12 + rnd_angle  # random angle is added (-5º + (0º->10º))
+                    angle = self.radians - math.pi / 16 + rnd_angle  # random angle is added (-5º + (0º->10º))
                     bullet = Bullet(self.center_x, self.center_y, 2000, 1500, 1, angle)  # speed, max_distance, damage
                     bullet_list.append(bullet)
-                arcade.play_sound(self.machinegun_sound)
+                arcade.Sound.play(self.machinegun_sound, 0.05)
                 # self.shooting = False
 
         elif self.weapon == "Akimbo":
@@ -169,10 +171,10 @@ class Player(LivingBeing):
                 self.shoot_count = 0.4  # time between shots
                 for i in range(2):  # amount of simultaneous bullets
                     rnd_angle = math.pi / 225 * randrange(25)  # random "angle" (0º to 10º)
-                    angle = self.radians - math.pi / 12 + rnd_angle  # random angle is added (-5º + (0º->10º))
-                    bullet = Bullet(self.center_x, self.center_y, 2000, 1500, 1, angle)  # speed, max_distance, damage
+                    angle = self.radians - math.pi / 14 + rnd_angle  # random angle is added (-5º + (0º->10º))
+                    bullet = Bullet(self.center_x, self.center_y, 2000, 1500, 2, angle)  # speed, max_distance, damage
                     bullet_list.append(bullet)
-                arcade.play_sound(self.machinegun_sound)
+                arcade.Sound.play(self.machinegun_sound, 0.2)
 
 
 
