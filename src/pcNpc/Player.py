@@ -44,9 +44,6 @@ class Player(LivingBeing):
         # Health
         self.health = 10
 
-        # Skins
-        # self.append_texture(arcade.Texture("./resources/sprites/player/machinegun.png"))
-
         # self.shooting = False
 
         # Sounds
@@ -71,7 +68,6 @@ class Player(LivingBeing):
 
         # Walking animation
         self.cur_texture += 1
-        print(self.cur_texture)
         if self.cur_texture > 4 * self.UPDATES_PER_FRAME:
             self.cur_texture = 0
 

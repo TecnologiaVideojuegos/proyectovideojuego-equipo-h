@@ -16,7 +16,7 @@ class MyGame(arcade.Window):
         """ Initializer """
 
         # Game config
-        super().__init__(800, 600, "Game name")
+        super().__init__(800, 600, "Ravenous beings")
         self.set_fullscreen()
         self.screen_width, self.screen_height = self.get_size()
         self.set_update_rate(1 / 60)
@@ -33,7 +33,7 @@ class MyGame(arcade.Window):
 
         # Music
         self.song = arcade.Sound("./resources/music/punish_them.wav")
-        self.song_length = 0
+        arcade.Sound.play(self.song, 0.05)
 
         # Every Sprite, SpriteList or SpriteList container is declared here
         # In game sprites
@@ -69,7 +69,6 @@ class MyGame(arcade.Window):
         """Sets up the game to be run"""
 
         # Setup the map
-        arcade.Sound.play(self.song, 0.05)
         self.map.setup_room()
         self.physics = Physics(self.player, self.enemy_list, self.bullet_list, self.map.wall_list)
 
@@ -229,6 +228,9 @@ class MyGame(arcade.Window):
                 arcade.close_window()
 
         elif self.state == 1:
+            self.position = self.song.get_stream_position()
+            if self.position == 0.0:
+                arcade.Sound.play(self.song, 0.05)
 
             if not self.pause:
                 self.set_mouse_visible(False)
