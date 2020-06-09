@@ -197,9 +197,9 @@ class MyGame(arcade.Window):
                         button.draw()
 
             else:
-                arcade.draw_text("Score: " + str(self.points), 50 + left, 800 + bottom, arcade.color.WHITE, 40)
-                arcade.draw_text("Round: " + str(self.round), 500 + left, 800 + bottom, arcade.color.WHITE, 40)
-                arcade.draw_text("Remaining: " + str(self.rest), 800 + left, 800 + bottom, arcade.color.WHITE, 40)
+                arcade.draw_text("Score: " + str(self.points), left + self.screen_width / 12, top - self.screen_height / 14, arcade.color.WHITE, 40)
+                arcade.draw_text("Round: " + str(self.round), left + self.screen_width / 3, top - self.screen_height / 14, arcade.color.WHITE, 40)
+                arcade.draw_text("Remaining: " + str(self.rest), left + self.screen_width / 2, top - self.screen_height / 14, arcade.color.WHITE, 40)
 
         elif self.state == 2:
             left, right, bottom, top = arcade.get_viewport()
