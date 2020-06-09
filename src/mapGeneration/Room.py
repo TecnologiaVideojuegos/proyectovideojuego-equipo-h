@@ -79,7 +79,7 @@ class Room:
         for x in range(self.room_x + 96, self.room_x + 7040 - 32, 64):
             for y in range(self.room_y + 96, self.room_y + 7040 - 32, 64):
                 rnd = randrange(100)
-                if rnd < 2:
+                if rnd < 0:
                     if not (704 < x < 832 and 319 < y < 513):
                         wall = self.random_wall()
                         wall.center_x = x

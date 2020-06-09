@@ -48,6 +48,28 @@ class MyGame(arcade.Window):
         self.button_list_1 = []
         self.buttonName = ["New Game", "Quit"]
 
+        # Weapons
+        self.texturesWeapon1 = []
+        self.texturesWeapon2 = []
+        self.texturesWeapon3 = []
+
+        self.texturesWeapon1.append("./resources/sprites/weapons/Verde_1.png")
+        self.texturesWeapon1.append("./resources/sprites/weapons/Rojo_1.png")
+
+        self.texturesWeapon2.append("./resources/sprites/weapons/Verde_2.png")
+        self.texturesWeapon2.append("./resources/sprites/weapons/Rojo_2.png")
+        self.texturesWeapon2.append("./resources/sprites/weapons/Gris_2.png")
+
+        self.texturesWeapon3.append("./resources/sprites/weapons/Verde_3.png")
+        self.texturesWeapon3.append("./resources/sprites/weapons/Rojo_3.png")
+        self.texturesWeapon3.append("./resources/sprites/weapons/Gris_3.png")
+
+        self.unlocksecond = False
+        self.unlockthird = False
+        self.first = 0
+        self.second = 2
+        self.third = 2
+
         # Points and rounds
         self.points = 0
         self.round = 1
@@ -182,6 +204,23 @@ class MyGame(arcade.Window):
 
             left, right, bottom, top = arcade.get_viewport()
 
+            # Weapons
+            arcade.draw_lrwh_rectangle_textured(left + self.screen_width / 16, bottom + self.screen_height / 12, 32,
+                                                32, arcade.load_texture(self.texturesWeapon1[self.first]))
+            arcade.draw_lrwh_rectangle_textured(left + 2 * self.screen_width / 16, bottom + self.screen_height / 12, 32,
+                                                32, arcade.load_texture(self.texturesWeapon2[self.second]))
+            arcade.draw_lrwh_rectangle_textured(left + 3 * self.screen_width / 16, bottom + self.screen_height / 12, 32,
+                                                32, arcade.load_texture(self.texturesWeapon3[self.third]))
+
+            if self.round >= 5 and not self.unlocksecond:
+                self.unlocksecond = True
+                self.second = 1
+
+            if self.round >= 10 and not self.unlockthird:
+                self.unlockthird = True
+                self.third = 1
+
+            # Pause
             if self.pause:
                 # Pause button
                 if len(self.pause_list) == 0:
@@ -315,19 +354,37 @@ class MyGame(arcade.Window):
             pass
         elif self.state == 1:
             if symbol == arcade.key.KEY_1:
+                self.first = 0
+                if self.unlocksecond:
+                    self.second = 1
+                if self.unlockthird:
+                    self.third = 1
+
                 self.player.texture = arcade.load_texture(self.player.textures[0])
                 self.player.weapon = "Shotgun"
                 self.player.change_animation()
 
             if symbol == arcade.key.KEY_2:
-                self.player.texture = arcade.load_texture(self.player.textures[1])
-                self.player.weapon = "Machinegun"
-                self.player.change_animation()
+                if self.unlocksecond:
+                    self.first = 1
+                    self.second = 0
+
+                    self.player.texture = arcade.load_texture(self.player.textures[1])
+                    self.player.weapon = "Machinegun"
+                    self.player.change_animation()
+
+                if self.unlockthird:
+                    self.third = 1
 
             if symbol == arcade.key.KEY_3:
-                self.player.texture = arcade.load_texture(self.player.textures[1])
-                self.player.weapon = "Akimbo"
-                self.player.change_animation()
+                if self.unlockthird:
+                    self.first = 1
+                    self.second = 1
+                    self.third = 0
+
+                    self.player.texture = arcade.load_texture(self.player.textures[1])
+                    self.player.weapon = "Akimbo"
+                    self.player.change_animation()
 
             if symbol == arcade.key.ESCAPE:
                 if self.pause:
