@@ -48,6 +48,15 @@ class MyGame(arcade.Window):
         self.button_list_0 = []
         self.button_list_1 = []
         self.buttonName = ["New Game", "Quit"]
+        self.startGame = []
+        self.startGame.append("./resources/wallpaper/0.gif")
+        self.startGame.append("./resources/wallpaper/1.gif")
+        self.startGame.append("./resources/wallpaper/2.gif")
+        self.startGame.append("./resources/wallpaper/3.gif")
+        self.startGame.append("./resources/wallpaper/4.gif")
+        self.image = 0
+        self.velocity = 0
+
 
         # Weapons
         self.texturesWeapon1 = []
@@ -87,6 +96,9 @@ class MyGame(arcade.Window):
 
         # EE
         self.contador = 0
+
+        # Fix
+        self.fix = 0
 
         # Wallpapper
         self.endBackground = None
@@ -170,7 +182,15 @@ class MyGame(arcade.Window):
         arcade.start_render()
 
         if self.state == 0:
-            arcade.set_background_color(arcade.color.WHITE)
+            arcade.set_background_color(arcade.color.BLACK)
+            if self.image == 5:
+                self.image = 0
+            arcade.draw_lrwh_rectangle_textured(self.screen_width / 4, 4 * self.screen_height / 6, 793,
+                                                166, arcade.load_texture(self.startGame[self.image]))
+            self.velocity += 1
+            if self.velocity == 20:
+                self.image += 1
+                self.velocity = 0
             for button in self.button_list_0:
                 button.draw()
 
@@ -287,13 +307,14 @@ class MyGame(arcade.Window):
                         self.mode = 2
 
                 # Generate bullets
-                if self.player.shooting:
-                    # If the player is trying to shoot resolve the action
-                    new_bullet_list = self.player.shoot(delta_time, reloading=False)
-                    self.physics.append_bullet(new_bullet_list)
-                else:
-                    # If the player ain't shooting reload the weapon
-                    self.player.shoot(delta_time, reloading=True)
+                if self.fix == 1:
+                    if self.player.shooting:
+                        # If the player is trying to shoot resolve the action
+                        new_bullet_list = self.player.shoot(delta_time, reloading=False)
+                        self.physics.append_bullet(new_bullet_list)
+                    else:
+                        # If the player ain't shooting reload the weapon
+                        self.player.shoot(delta_time, reloading=True)
 
                 # Update enemy speed
                 for enemy in self.enemy_list:
@@ -435,7 +456,9 @@ class MyGame(arcade.Window):
             for button in self.button_list_0:
                 assert (isinstance(button, arcade.gui.TextButton))
                 button.check_mouse_press(x, y)
+
         elif self.state == 1:
+            self.fix = 1
             left, right, bottom, top = arcade.get_viewport()
 
             if button == arcade.MOUSE_BUTTON_LEFT:
@@ -454,8 +477,6 @@ class MyGame(arcade.Window):
                         self.song = arcade.Sound("./resources/music/song2.wav")
                         self.volume = 0.01
                         arcade.Sound.play(self.song, self.volume)
-
-
 
         elif self.state == 2:
             for button in self.button_list_1:
