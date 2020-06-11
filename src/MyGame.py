@@ -48,6 +48,15 @@ class MyGame(arcade.Window):
         self.button_list_0 = []
         self.button_list_1 = []
         self.buttonName = ["New Game", "Quit"]
+        self.startGame = []
+        self.startGame.append("./resources/wallpaper/0.gif")
+        self.startGame.append("./resources/wallpaper/1.gif")
+        self.startGame.append("./resources/wallpaper/2.gif")
+        self.startGame.append("./resources/wallpaper/3.gif")
+        self.startGame.append("./resources/wallpaper/4.gif")
+        self.image = 0
+        self.velocity = 0
+
 
         # Weapons
         self.texturesWeapon1 = []
@@ -170,7 +179,15 @@ class MyGame(arcade.Window):
         arcade.start_render()
 
         if self.state == 0:
-            arcade.set_background_color(arcade.color.WHITE)
+            arcade.set_background_color(arcade.color.BLACK)
+            if self.image == 5:
+                self.image = 0
+            arcade.draw_lrwh_rectangle_textured(self.screen_width / 4, 4 * self.screen_height / 6, 793,
+                                                166, arcade.load_texture(self.startGame[self.image]))
+            self.velocity += 1
+            if self.velocity == 20:
+                self.image += 1
+                self.velocity = 0
             for button in self.button_list_0:
                 button.draw()
 
