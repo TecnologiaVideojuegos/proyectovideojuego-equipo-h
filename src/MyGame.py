@@ -54,6 +54,10 @@ class MyGame(arcade.Window):
         self.startGame.append("./resources/wallpaper/2.gif")
         self.startGame.append("./resources/wallpaper/3.gif")
         self.startGame.append("./resources/wallpaper/4.gif")
+        self.startGame.append("./resources/wallpaper/5.gif")
+        self.startGame.append("./resources/wallpaper/6.gif")
+        self.startGame.append("./resources/wallpaper/7.gif")
+        self.startGame.append("./resources/wallpaper/8.gif")
         self.image = 0
         self.velocity = 0
 
@@ -183,12 +187,12 @@ class MyGame(arcade.Window):
 
         if self.state == 0:
             arcade.set_background_color(arcade.color.BLACK)
-            if self.image == 5:
+            if self.image == 9:
                 self.image = 0
-            arcade.draw_lrwh_rectangle_textured(self.screen_width / 4, 4 * self.screen_height / 6, 793,
-                                                166, arcade.load_texture(self.startGame[self.image]))
+            arcade.draw_lrwh_rectangle_textured(0, 0, self.screen_width, self.screen_height,
+                                                arcade.load_texture(self.startGame[self.image]))
             self.velocity += 1
-            if self.velocity == 20:
+            if self.velocity == 13:
                 self.image += 1
                 self.velocity = 0
             for button in self.button_list_0:
