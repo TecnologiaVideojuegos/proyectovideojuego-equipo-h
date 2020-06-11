@@ -53,7 +53,7 @@ class MyGame(arcade.Window):
         self.texturesWeapon2 = []
         self.texturesWeapon3 = []
 
-        self.texturesWeapon1.append("./resources/sprites/weapons/Verde_1.png")
+        self.texturesWeapon1.append("./resources/sprites/weapons/ShotgunSquareNonSelected.png")
         self.texturesWeapon1.append("./resources/sprites/weapons/Rojo_1.png")
 
         self.texturesWeapon2.append("./resources/sprites/weapons/Verde_2.png")
@@ -205,12 +205,12 @@ class MyGame(arcade.Window):
             left, right, bottom, top = arcade.get_viewport()
 
             # Weapons
-            arcade.draw_lrwh_rectangle_textured(left + self.screen_width / 16, bottom + self.screen_height / 12, 32,
-                                                32, arcade.load_texture(self.texturesWeapon1[self.first]))
-            arcade.draw_lrwh_rectangle_textured(left + 2 * self.screen_width / 16, bottom + self.screen_height / 12, 32,
-                                                32, arcade.load_texture(self.texturesWeapon2[self.second]))
-            arcade.draw_lrwh_rectangle_textured(left + 3 * self.screen_width / 16, bottom + self.screen_height / 12, 32,
-                                                32, arcade.load_texture(self.texturesWeapon3[self.third]))
+            arcade.draw_lrwh_rectangle_textured(left + self.screen_width / 16, bottom + self.screen_height / 12, 60,
+                                                60, arcade.load_texture(self.texturesWeapon1[self.first]))
+            arcade.draw_lrwh_rectangle_textured(left + 2 * self.screen_width / 16, bottom + self.screen_height / 12, 60,
+                                                60, arcade.load_texture(self.texturesWeapon2[self.second]))
+            arcade.draw_lrwh_rectangle_textured(left + 3 * self.screen_width / 16, bottom + self.screen_height / 12, 60,
+                                                60, arcade.load_texture(self.texturesWeapon3[self.third]))
 
             if self.round >= 5 and not self.unlocksecond:
                 self.unlocksecond = True
