@@ -33,7 +33,8 @@ class MyGame(arcade.Window):
 
         # Music
         self.song = arcade.Sound("./resources/music/punish_them.wav")
-        arcade.Sound.play(self.song, 0.05)
+        self.volume = 0.05
+        arcade.Sound.play(self.song, self.volume)
 
         # Every Sprite, SpriteList or SpriteList container is declared here
         # In game sprites
@@ -56,13 +57,13 @@ class MyGame(arcade.Window):
         self.texturesWeapon1.append("./resources/sprites/weapons/ShotgunSquareSelected.png")
         self.texturesWeapon1.append("./resources/sprites/weapons/ShotgunSquareNonSelected.png")
 
-        self.texturesWeapon2.append("./resources/sprites/weapons/Verde_2.png")
-        self.texturesWeapon2.append("./resources/sprites/weapons/Rojo_2.png")
+        self.texturesWeapon2.append("./resources/sprites/weapons/MachinegunSquareSelected.png")
+        self.texturesWeapon2.append("./resources/sprites/weapons/MachinegunSquareNonSelected.png")
         self.texturesWeapon2.append("./resources/sprites/weapons/Gris_2.png")
 
-        self.texturesWeapon3.append("./resources/sprites/weapons/Verde_3.png")
-        self.texturesWeapon3.append("./resources/sprites/weapons/Rojo_3.png")
-        self.texturesWeapon3.append("./resources/sprites/weapons/Gris_3.png")
+        self.texturesWeapon3.append("./resources/sprites/weapons/PistolSquareSelected.png")
+        self.texturesWeapon3.append("./resources/sprites/weapons/PistolSquareNonSelected.png")
+        self.texturesWeapon3.append("./resources/sprites/weapons/PistolSquareLocked.png")
 
         self.unlocksecond = False
         self.unlockthird = False
@@ -83,6 +84,9 @@ class MyGame(arcade.Window):
         # Pause
         self.pause_list = []
         self.pause = False
+
+        # EE
+        self.contador = 0
 
         # Wallpapper
         self.endBackground = None
@@ -269,7 +273,7 @@ class MyGame(arcade.Window):
         elif self.state == 1:
             self.position = self.song.get_stream_position()
             if self.position == 0.0:
-                arcade.Sound.play(self.song, 0.05)
+                arcade.Sound.play(self.song, self.volume)
 
             if not self.pause:
                 self.set_mouse_visible(False)
@@ -432,13 +436,26 @@ class MyGame(arcade.Window):
                 assert (isinstance(button, arcade.gui.TextButton))
                 button.check_mouse_press(x, y)
         elif self.state == 1:
+            left, right, bottom, top = arcade.get_viewport()
+
             if button == arcade.MOUSE_BUTTON_LEFT:
                 self.player.shooting = True
 
             for button2 in self.pause_list:
                 if isinstance(button2, Button):
-                    left, right, bottom, top = arcade.get_viewport()
                     button2.check_mouse_press(x + left, y + bottom)
+
+            # Easter egg
+            if self.pause:
+                if (self.player.check_mouse_press(x + left, y + bottom)):
+                    self.contador += 1
+                    if self.contador == 15:
+                        self.song.stop()
+                        self.song = arcade.Sound("./resources/music/song2.wav")
+                        self.volume = 0.01
+                        arcade.Sound.play(self.song, self.volume)
+
+
 
         elif self.state == 2:
             for button in self.button_list_1:

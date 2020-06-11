@@ -172,9 +172,16 @@ class Player(LivingBeing):
                     bullet_list.append(bullet)
                 arcade.Sound.play(self.machinegun_sound, 0.2)
 
-
-
         else:
             pass
 
         return bullet_list
+
+    def check_mouse_press(self, x, y):
+        if x < self.center_x + self.width / 2:
+            if x > self.center_x - self.width / 2:
+                if y < self.center_y + self.height / 2:
+                    if y > self.center_y - self.height / 2:
+                        return True
+        else:
+            return False
