@@ -97,6 +97,9 @@ class MyGame(arcade.Window):
         # EE
         self.contador = 0
 
+        # Fix
+        self.fix = 0
+
         # Wallpapper
         self.endBackground = None
 
@@ -304,13 +307,14 @@ class MyGame(arcade.Window):
                         self.mode = 2
 
                 # Generate bullets
-                if self.player.shooting:
-                    # If the player is trying to shoot resolve the action
-                    new_bullet_list = self.player.shoot(delta_time, reloading=False)
-                    self.physics.append_bullet(new_bullet_list)
-                else:
-                    # If the player ain't shooting reload the weapon
-                    self.player.shoot(delta_time, reloading=True)
+                if self.fix == 1:
+                    if self.player.shooting:
+                        # If the player is trying to shoot resolve the action
+                        new_bullet_list = self.player.shoot(delta_time, reloading=False)
+                        self.physics.append_bullet(new_bullet_list)
+                    else:
+                        # If the player ain't shooting reload the weapon
+                        self.player.shoot(delta_time, reloading=True)
 
                 # Update enemy speed
                 for enemy in self.enemy_list:
@@ -452,7 +456,9 @@ class MyGame(arcade.Window):
             for button in self.button_list_0:
                 assert (isinstance(button, arcade.gui.TextButton))
                 button.check_mouse_press(x, y)
+
         elif self.state == 1:
+            self.fix = 1
             left, right, bottom, top = arcade.get_viewport()
 
             if button == arcade.MOUSE_BUTTON_LEFT:
@@ -471,8 +477,6 @@ class MyGame(arcade.Window):
                         self.song = arcade.Sound("./resources/music/song2.wav")
                         self.volume = 0.01
                         arcade.Sound.play(self.song, self.volume)
-
-
 
         elif self.state == 2:
             for button in self.button_list_1:
