@@ -61,22 +61,21 @@ class MyGame(arcade.Window):
         self.image = 0
         self.velocity = 0
 
-
         # Weapons
         self.texturesWeapon1 = []
         self.texturesWeapon2 = []
         self.texturesWeapon3 = []
 
-        self.texturesWeapon1.append("./resources/sprites/weapons/ShotgunSquareSelected.png")
-        self.texturesWeapon1.append("./resources/sprites/weapons/ShotgunSquareNonSelected.png")
+        self.texturesWeapon1.append("./resources/sprites/weapons/PistolSquareSelected.png")
+        self.texturesWeapon1.append("./resources/sprites/weapons/PistolSquareNonSelected.png")
 
         self.texturesWeapon2.append("./resources/sprites/weapons/MachinegunSquareSelected.png")
         self.texturesWeapon2.append("./resources/sprites/weapons/MachinegunSquareNonSelected.png")
         self.texturesWeapon2.append("./resources/sprites/weapons/MachinegunSquareLocked.png")
 
-        self.texturesWeapon3.append("./resources/sprites/weapons/PistolSquareSelected.png")
-        self.texturesWeapon3.append("./resources/sprites/weapons/PistolSquareNonSelected.png")
-        self.texturesWeapon3.append("./resources/sprites/weapons/PistolSquareLocked.png")
+        self.texturesWeapon3.append("./resources/sprites/weapons/ShotgunSquareSelected.png")
+        self.texturesWeapon3.append("./resources/sprites/weapons/ShotgunSquareNonSelected.png")
+        self.texturesWeapon3.append("./resources/sprites/weapons/ShotgunSquareLocked.png")
 
         self.unlocksecond = False
         self.unlockthird = False
@@ -100,9 +99,6 @@ class MyGame(arcade.Window):
 
         # EE
         self.contador = 0
-
-        # Fix
-        self.fix = 0
 
         # Wallpapper
         self.endBackground = None
@@ -202,24 +198,6 @@ class MyGame(arcade.Window):
             # Map
             self.map.draw()
 
-            # Create the enemies
-            if self.newRound:
-                for i in range(self.numEnemys):
-                    enemy = Enemy(randrange(96, 6944), randrange(96, 6944), 0)
-                    self.enemy_list.append(enemy)
-
-                self.newRound = False
-                self.rest = self.numEnemys
-                self.numEnemys += 2
-
-                if self.mode >= 2:
-                    for i in range(self.numOrangeEnemys):
-                        enemy = Enemy(randrange(96, 6944), randrange(96, 6944), 1)
-                        self.enemy_list.append(enemy)
-
-                    self.rest += self.numOrangeEnemys
-                    self.numOrangeEnemys += 1
-
             # Enemies
             self.dead_list.draw()
             self.enemy_list.draw()
@@ -263,9 +241,12 @@ class MyGame(arcade.Window):
                         button.draw()
 
             else:
-                arcade.draw_text("Score: " + str(self.points), left + self.screen_width / 12, top - self.screen_height / 14, arcade.color.WHITE, 40)
-                arcade.draw_text("Round: " + str(self.round), left + self.screen_width / 3, top - self.screen_height / 14, arcade.color.WHITE, 40)
-                arcade.draw_text("Remaining: " + str(self.rest), left + self.screen_width / 2, top - self.screen_height / 14, arcade.color.WHITE, 40)
+                arcade.draw_text("Score: " + str(self.points), left + self.screen_width / 12,
+                                 top - self.screen_height / 14, arcade.color.WHITE, 40)
+                arcade.draw_text("Round: " + str(self.round), left + self.screen_width / 3,
+                                 top - self.screen_height / 14, arcade.color.WHITE, 40)
+                arcade.draw_text("Remaining: " + str(self.rest), left + self.screen_width / 2,
+                                 top - self.screen_height / 14, arcade.color.WHITE, 40)
 
         elif self.state == 2:
             left, right, bottom, top = arcade.get_viewport()
@@ -274,7 +255,8 @@ class MyGame(arcade.Window):
             for button in self.button_list_1:
                 button.draw()
 
-            arcade.draw_text("Defeated enemies: " + str(self.deadEnemys), 50 + left, 300 + bottom, arcade.color.WHITE, 40)
+            arcade.draw_text("Defeated enemies: " + str(self.deadEnemys), 50 + left, 300 + bottom, arcade.color.WHITE,
+                             40)
             arcade.draw_text("Rounds: " + str(self.round - 1), 50 + left, 240 + bottom, arcade.color.WHITE, 40)
             arcade.draw_text("Score: " + str(self.points), 50 + left, 180 + bottom, arcade.color.WHITE, 40)
 
@@ -310,15 +292,43 @@ class MyGame(arcade.Window):
                     if (self.round == 5):
                         self.mode = 2
 
+                # Summon new enemies
+                if self.newRound:
+                    for i in range(self.numEnemys):
+                        run = True
+                        enemy = Enemy(randrange(1, 109) * 64 + 32, randrange(1, 109) * 64 + 32, 0)
+                        while run:
+                            if self.player.center_x - self.width <= enemy.center_x <= self.player.center_x + self.width and self.player.center_y - self.height <= enemy.center_y <= self.player.center_y + self.height:
+                                enemy = Enemy(randrange(1, 109) * 64 + 32, randrange(1, 109) * 64 + 32, 0)
+                                continue
+                            run = False
+                            for wall in self.map.wall_list:
+                                if enemy.center_x == wall.center_x and enemy.center_y == wall.center_y:
+                                    enemy = Enemy(randrange(1, 109) * 64 + 32, randrange(1, 109) * 64 + 32, 0)
+                                    run = True
+                                    break
+                        self.enemy_list.append(enemy)
+
+                    self.newRound = False
+                    self.rest = self.numEnemys
+                    self.numEnemys += 2
+
+                    if self.mode >= 2:
+                        for i in range(self.numOrangeEnemys):
+                            enemy = Enemy(randrange(96, 6944), randrange(96, 6944), 1)
+                            self.enemy_list.append(enemy)
+
+                        self.rest += self.numOrangeEnemys
+                        self.numOrangeEnemys += 1
+
                 # Generate bullets
-                if self.fix == 1:
-                    if self.player.shooting:
-                        # If the player is trying to shoot resolve the action
-                        new_bullet_list = self.player.shoot(delta_time, reloading=False)
-                        self.physics.append_bullet(new_bullet_list)
-                    else:
-                        # If the player ain't shooting reload the weapon
-                        self.player.shoot(delta_time, reloading=True)
+                if self.player.shooting:
+                    # If the player is trying to shoot resolve the action
+                    new_bullet_list = self.player.shoot(delta_time, reloading=False)
+                    self.physics.append_bullet(new_bullet_list)
+                else:
+                    # If the player isn't shooting reload the weapon
+                    self.player.shoot(delta_time, reloading=True)
 
                 # Update enemy speed
                 for enemy in self.enemy_list:
@@ -329,7 +339,6 @@ class MyGame(arcade.Window):
                 self.player.update_animation()
                 self.player.upd_orientation()
                 self.player.speed_up()
-
 
                 # Update bullseye position
                 self.player.bullseye_pos(self.view_left, self.view_bottom)
@@ -390,7 +399,7 @@ class MyGame(arcade.Window):
                     self.third = 1
 
                 self.player.texture = arcade.load_texture(self.player.textures[0])
-                self.player.weapon = "Shotgun"
+                self.player.weapon = "Akimbo"
                 self.player.change_animation()
 
             if symbol == arcade.key.KEY_2:
@@ -412,7 +421,7 @@ class MyGame(arcade.Window):
                     self.third = 0
 
                     self.player.texture = arcade.load_texture(self.player.textures[1])
-                    self.player.weapon = "Akimbo"
+                    self.player.weapon = "Shotgun"
                     self.player.change_animation()
 
             if symbol == arcade.key.ESCAPE:
@@ -462,7 +471,6 @@ class MyGame(arcade.Window):
                 button.check_mouse_press(x, y)
 
         elif self.state == 1:
-            self.fix = 1
             left, right, bottom, top = arcade.get_viewport()
 
             if button == arcade.MOUSE_BUTTON_LEFT:

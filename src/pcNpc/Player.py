@@ -25,6 +25,7 @@ class Player(LivingBeing):
         :param position_y: The initial y position of the player.
         """
 
+        # Esta imagen es una por defecto. En realidad no importa cual sea.
         super().__init__(position_x, position_y, "./resources/sprites/player/Shotgun.png", 1)
 
         # Used for flipping between image sequences
@@ -33,7 +34,8 @@ class Player(LivingBeing):
         self.character_face_direction = 0
 
         # Weapon
-        self.weapon = "Shotgun"
+        self.weapon = "Akimbo"
+        self.shooting = False
         Player.change_animation(self)
 
         # Weapons
@@ -49,6 +51,7 @@ class Player(LivingBeing):
         # Sounds
         self.shotgun_sound = arcade.Sound("./resources/sounds/shotgun.wav")
         self.machinegun_sound = arcade.Sound("./resources/sounds/machinegun.wav")
+        self.akimbo_sound = arcade.Sound("./resources/sounds/akimbo.wav")
         self.shoot_count = 0
 
         # Movement
@@ -82,7 +85,6 @@ class Player(LivingBeing):
         for i in range(1, 6):
             texture = load_texture_pair(f"{main_path}{self.weapon}AnimationFix/Anim{self.weapon}{i}Fix.png")
             self.walk_textures.append(texture)
-
 
     def upd_orientation(self, x=None, y=None):
         x_ = self.bullseye.center_x - self.center_x
@@ -136,20 +138,20 @@ class Player(LivingBeing):
 
         if self.weapon == "Shotgun":
             if self.shoot_count > 0:
-                self.shoot_count -= 1 * delta_time
+                self.shoot_count -= delta_time
             elif self.shoot_count <= 0 and not reloading:
-                self.shoot_count = 0.75  # time between shots
+                self.shoot_count = 1  # time between shots
                 for i in range(5):  # amount of simultaneous bullets
                     rnd_angle = math.pi / 225 * randrange(25)  # random "angle" (0º to 30º)
                     angle = self.radians - math.pi / 12 + rnd_angle  # random angle is added (-15º + (0º->30º))
-                    bullet = Bullet(self.center_x, self.center_y, 2000, 600, 3, angle)  # speed, max_distance, damage
+                    bullet = Bullet(self.center_x, self.center_y, 2000, 600, 4, angle)  # speed, max_distance, damage
                     bullet_list.append(bullet)
-                arcade.Sound.play(self.shotgun_sound, 0.2)
-                # self.shooting = False
+                arcade.Sound.play(self.shotgun_sound, 0.4)
+                self.shooting = False
 
         elif self.weapon == "Machinegun":
             if self.shoot_count > 0:
-                self.shoot_count -= 1 * delta_time
+                self.shoot_count -= delta_time
             elif self.shoot_count <= 0 and not reloading:
                 self.shoot_count = 0.05  # time between shots
                 for i in range(1):  # amount of simultaneous bullets
@@ -162,15 +164,16 @@ class Player(LivingBeing):
 
         elif self.weapon == "Akimbo":
             if self.shoot_count > 0:
-                self.shoot_count -= 1 * delta_time
+                self.shoot_count -= delta_time
             elif self.shoot_count <= 0 and not reloading:
-                self.shoot_count = 0.4  # time between shots
+                self.shoot_count = 0.3  # time between shots
                 for i in range(2):  # amount of simultaneous bullets
                     rnd_angle = math.pi / 225 * randrange(25)  # random "angle" (0º to 10º)
                     angle = self.radians - math.pi / 14 + rnd_angle  # random angle is added (-5º + (0º->10º))
                     bullet = Bullet(self.center_x, self.center_y, 2000, 1500, 2, angle)  # speed, max_distance, damage
                     bullet_list.append(bullet)
-                arcade.Sound.play(self.machinegun_sound, 0.2)
+                arcade.Sound.play(self.akimbo_sound, 0.15)
+                # self.shooting = False
 
         else:
             pass
