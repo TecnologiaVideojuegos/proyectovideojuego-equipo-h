@@ -53,8 +53,8 @@ class MyGame(arcade.Window):
         self.texturesWeapon2 = []
         self.texturesWeapon3 = []
 
+        self.texturesWeapon1.append("./resources/sprites/weapons/ShotgunSquareSelected.png")
         self.texturesWeapon1.append("./resources/sprites/weapons/ShotgunSquareNonSelected.png")
-        self.texturesWeapon1.append("./resources/sprites/weapons/Rojo_1.png")
 
         self.texturesWeapon2.append("./resources/sprites/weapons/Verde_2.png")
         self.texturesWeapon2.append("./resources/sprites/weapons/Rojo_2.png")
