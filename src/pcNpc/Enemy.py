@@ -41,3 +41,9 @@ class Enemy(LivingBeing):
             if self.health <= 0:
                 self.alive = False
 
+    def a_star(self, walls, player):
+        """
+        Finds a path between the enemy and the player that avoids the walls.
+        The path is composed by several vertices (each floor tile has one) and consecutive vertices correspond to tiles
+        """
+        # Obtengo mi posición central
