@@ -59,7 +59,7 @@ class MyGame(arcade.Window):
 
         self.texturesWeapon2.append("./resources/sprites/weapons/MachinegunSquareSelected.png")
         self.texturesWeapon2.append("./resources/sprites/weapons/MachinegunSquareNonSelected.png")
-        self.texturesWeapon2.append("./resources/sprites/weapons/Gris_2.png")
+        self.texturesWeapon2.append("./resources/sprites/weapons/MachinegunSquareLocked.png")
 
         self.texturesWeapon3.append("./resources/sprites/weapons/PistolSquareSelected.png")
         self.texturesWeapon3.append("./resources/sprites/weapons/PistolSquareNonSelected.png")
