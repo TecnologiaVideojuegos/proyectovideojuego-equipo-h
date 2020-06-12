@@ -85,7 +85,7 @@ class MyGame(arcade.Window):
 
         # Points and rounds
         self.points = 0
-        self.round = 1
+        self.round = 0
         self.newRound = True
         self.numEnemys = 3
         self.numOrangeEnemys = 1
@@ -232,7 +232,7 @@ class MyGame(arcade.Window):
                 if len(self.pause_list) == 0:
                     if bottom + 800 > 7040:
                         bottom = 6340
-                    pause_button = Button(100 + left, 800 + bottom, self.screen_width // 8, self.screen_height // 8,
+                    pause_button = Button(self.screen_width // 10 + left, 7 * self.screen_height // 8 + bottom, self.screen_width // 8, self.screen_height // 8,
                                           "Exit game")
                     self.pause_list.append(pause_button)
 
@@ -255,10 +255,10 @@ class MyGame(arcade.Window):
             for button in self.button_list_1:
                 button.draw()
 
-            arcade.draw_text("Defeated enemies: " + str(self.deadEnemys), 50 + left, 300 + bottom, arcade.color.WHITE,
+            arcade.draw_text("Defeated enemies: " + str(self.deadEnemys), self.screen_width // 9 + left, 4 * self.screen_height // 15 + bottom, arcade.color.WHITE,
                              40)
-            arcade.draw_text("Rounds: " + str(self.round - 1), 50 + left, 240 + bottom, arcade.color.WHITE, 40)
-            arcade.draw_text("Score: " + str(self.points), 50 + left, 180 + bottom, arcade.color.WHITE, 40)
+            arcade.draw_text("Rounds: " + str(self.round - 1), self.screen_width // 9 + left, 3 * self.screen_height // 15 + bottom, arcade.color.WHITE, 40)
+            arcade.draw_text("Score: " + str(self.points), self.screen_width // 9 + left, 2 * self.screen_height // 15 + bottom, arcade.color.WHITE, 40)
 
         else:
             pass
