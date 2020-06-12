@@ -214,8 +214,8 @@ class MyGame(arcade.Window):
             # Title
             if self.title == 15:
                 self.title = 0
-            arcade.draw_lrwh_rectangle_textured(2 * self.screen_width // 25, 11 * self.screen_height // 16, 1284, 192,
-                                                arcade.load_texture(self.startTitle[self.title]))
+            arcade.draw_lrwh_rectangle_textured((self.screen_width - 1284) / 2, 11 * self.screen_height // 16, 1284,
+                                                192, arcade.load_texture(self.startTitle[self.title]))
             self.velocityTitle += 1
             if self.velocityTitle == 9:
                 self.title += 1
