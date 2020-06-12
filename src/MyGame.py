@@ -60,6 +60,24 @@ class MyGame(arcade.Window):
         self.startGame.append("./resources/wallpaper/8.gif")
         self.image = 0
         self.velocity = 0
+        self.startTitle = []
+        self.startTitle.append("./resources/wallpaper/gameTitle/title00.png")
+        self.startTitle.append("./resources/wallpaper/gameTitle/title01.png")
+        self.startTitle.append("./resources/wallpaper/gameTitle/title02.png")
+        self.startTitle.append("./resources/wallpaper/gameTitle/title03.png")
+        self.startTitle.append("./resources/wallpaper/gameTitle/title04.png")
+        self.startTitle.append("./resources/wallpaper/gameTitle/title05.png")
+        self.startTitle.append("./resources/wallpaper/gameTitle/title06.png")
+        self.startTitle.append("./resources/wallpaper/gameTitle/title07.png")
+        self.startTitle.append("./resources/wallpaper/gameTitle/title08.png")
+        self.startTitle.append("./resources/wallpaper/gameTitle/title09.png")
+        self.startTitle.append("./resources/wallpaper/gameTitle/title10.png")
+        self.startTitle.append("./resources/wallpaper/gameTitle/title11.png")
+        self.startTitle.append("./resources/wallpaper/gameTitle/title12.png")
+        self.startTitle.append("./resources/wallpaper/gameTitle/title13.png")
+        self.startTitle.append("./resources/wallpaper/gameTitle/title14.png")
+        self.title = 0
+        self.velocityTitle = 0
 
         # Weapons
         self.texturesWeapon1 = []
@@ -182,6 +200,7 @@ class MyGame(arcade.Window):
         arcade.start_render()
 
         if self.state == 0:
+            # Background
             arcade.set_background_color(arcade.color.BLACK)
             if self.image == 9:
                 self.image = 0
@@ -191,6 +210,18 @@ class MyGame(arcade.Window):
             if self.velocity == 13:
                 self.image += 1
                 self.velocity = 0
+
+            # Title
+            if self.title == 15:
+                self.title = 0
+            arcade.draw_lrwh_rectangle_textured(2.5 * self.screen_width // 11, 3 * self.screen_height // 4, 856, 128,
+                                                arcade.load_texture(self.startTitle[self.title]))
+            self.velocityTitle += 1
+            if self.velocityTitle == 9:
+                self.title += 1
+                self.velocityTitle = 0
+
+            # Button
             for button in self.button_list_0:
                 button.draw()
 
