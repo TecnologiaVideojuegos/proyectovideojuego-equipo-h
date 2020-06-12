@@ -116,7 +116,7 @@ class MyGame(arcade.Window):
         # Setup the buttons
         # Setup main menu buttons (state 0)
         for i in range(2):
-            button = Button(self.screen_width // 2, (self.screen_height // 2) - i * 125,
+            button = Button(self.screen_width // 8, (self.screen_height // 3) - (self.screen_height / 7) * i,
                             self.screen_width // 8, self.screen_height // 8,
                             self.buttonName[i])
             self.button_list_0.append(button)
