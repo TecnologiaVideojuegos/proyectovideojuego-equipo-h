@@ -5,9 +5,9 @@ class Button(arcade.gui.TextButton):
         super().__init__(center_x, center_y, width, height, text)
         theme = arcade.gui.Theme()
         theme.set_font(24, arcade.color.WHITE)
-        normal = ":resources:gui_themes/Fantasy/Buttons/Normal.png"
-        hover = ":resources:gui_themes/Fantasy/Buttons/Hover.png"
-        clicked = ":resources:gui_themes/Fantasy/Buttons/Clicked.png"
+        normal = "./resources/sprites/Buttons/StoneButtonCropped.png"
+        hover = "./resources/sprites/Buttons/StoneButtonCropped.png"
+        clicked = "./resources/sprites/Buttons/StoneButtonPressedCropped.png"
         locked = ":resources:gui_themes/Fantasy/Buttons/Locked.png"
         theme.add_button_textures(normal, hover, clicked, locked)
         self.normal_texture = theme.button_textures['normal']
