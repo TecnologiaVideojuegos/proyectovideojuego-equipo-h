@@ -119,7 +119,25 @@ class MyGame(arcade.Window):
         self.contador = 0
 
         # Wallpapper
-        self.endBackground = None
+        self.endCounter = 0
+        self.endBackground = []
+        self.endBackground.append("./resources/wallpaper/endGame/0.gif")
+        self.endBackground.append("./resources/wallpaper/endGame/1.gif")
+        self.endBackground.append("./resources/wallpaper/endGame/2.gif")
+        self.endBackground.append("./resources/wallpaper/endGame/3.gif")
+        self.endBackground.append("./resources/wallpaper/endGame/4.gif")
+        self.endBackground.append("./resources/wallpaper/endGame/5.gif")
+        self.endBackground.append("./resources/wallpaper/endGame/6.gif")
+        self.endBackground.append("./resources/wallpaper/endGame/7.gif")
+        self.endBackground.append("./resources/wallpaper/endGame/8.gif")
+        self.endBackground.append("./resources/wallpaper/endGame/9.gif")
+        self.endBackground.append("./resources/wallpaper/endGame/10.gif")
+        self.endBackground.append("./resources/wallpaper/endGame/11.gif")
+        self.endBackground.append("./resources/wallpaper/endGame/12.gif")
+        self.endBackground.append("./resources/wallpaper/endGame/13.gif")
+        self.endBackground.append("./resources/wallpaper/endGame/14.gif")
+
+        self.endVelocity = 0
 
     def setup(self):
         """Sets up the game to be run"""
@@ -127,9 +145,6 @@ class MyGame(arcade.Window):
         # Setup the map
         self.map.setup_room()
         self.physics = Physics(self.player, self.enemy_list, self.bullet_list, self.map.wall_list)
-
-        # Wallpaper
-        self.endBackground = arcade.load_texture("./resources/wallpaper/gameOver.png")
 
         # Setup the buttons
         # Setup main menu buttons (state 0)
@@ -140,7 +155,7 @@ class MyGame(arcade.Window):
             self.button_list_0.append(button)
 
         # Setup main end game button (state 2)
-        button = Button(3 * self.screen_width // 4, (self.screen_height // 3) - i * 125,
+        button = Button(7 * self.screen_width // 8, (self.screen_height // 4) - i * 125,
                         self.screen_width // 8, self.screen_height // 8,
                         self.buttonName[1])
         self.button_list_1.append(button)
@@ -281,15 +296,24 @@ class MyGame(arcade.Window):
 
         elif self.state == 2:
             left, right, bottom, top = arcade.get_viewport()
-            arcade.draw_lrwh_rectangle_textured(0, 0, self.screen_width, self.screen_height, self.endBackground)
+
+            if self.endCounter == 14:
+                self.endCounter = 0
+
+            arcade.draw_lrwh_rectangle_textured(0, 0, self.screen_width, self.screen_height,
+                                                arcade.load_texture(self.endBackground[self.endCounter]))
+            self.endVelocity += 1
+            if self.endVelocity == 13:
+                self.endCounter += 1
+                self.endVelocity = 0
 
             for button in self.button_list_1:
                 button.draw()
 
-            arcade.draw_text("Defeated enemies: " + str(self.deadEnemys), self.screen_width // 9 + left, 4 * self.screen_height // 15 + bottom, arcade.color.WHITE,
+            arcade.draw_text("Defeated enemies: " + str(self.deadEnemys), self.screen_width // 10 + left, 13 * self.screen_height // 15 + bottom, arcade.color.WHITE,
                              40)
-            arcade.draw_text("Rounds: " + str(self.round - 1), self.screen_width // 9 + left, 3 * self.screen_height // 15 + bottom, arcade.color.WHITE, 40)
-            arcade.draw_text("Score: " + str(self.points), self.screen_width // 9 + left, 2 * self.screen_height // 15 + bottom, arcade.color.WHITE, 40)
+            arcade.draw_text("Rounds: " + str(self.round - 1), self.screen_width // 10 + left, 12 * self.screen_height // 15 + bottom, arcade.color.WHITE, 40)
+            arcade.draw_text("Score: " + str(self.points), self.screen_width // 10 + left, 11 * self.screen_height // 15 + bottom, arcade.color.WHITE, 40)
 
         else:
             pass
@@ -412,6 +436,7 @@ class MyGame(arcade.Window):
         elif self.state == 2:
             self.reset_viewport()
             self.set_mouse_visible(True)
+
             if self.button_list_1[0].pressed:
                 arcade.close_window()
 
